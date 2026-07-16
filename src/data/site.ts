@@ -83,11 +83,10 @@ export const heroSlides: HeroSlide[] = [
 // ─── Catalog (Greens & Microgreens) ─────────────────────────────
 
 export interface CatalogItem {
-  image: string;
-  alt: string;
   name: string;
   type: string;
   description: string;
+  images: { src: string; alt: string }[];
 }
 
 export interface CatalogSection {
@@ -103,32 +102,48 @@ export const greens: CatalogSection = {
   id: "greens",
   items: [
     {
-      image: "/images/popular-dishes/grilled-herb-chicken.webp",
-      alt: "Grilled Herb Chicken",
       name: "Grilled Herb Chicken",
       type: "Main course 🥘",
       description: "Juicy chicken grilled with herbs and served with garlic sauce.",
+      images: [
+        { src: "/images/popular-dishes/grilled-herb-chicken.webp", alt: "Grilled Herb Chicken" },
+        { src: "/images/hero-section/dish-01.webp", alt: "Plate 1" },
+        { src: "/images/hero-section/dish-03.webp", alt: "Plate 3" },
+        { src: "/images/new-items/new-items-01.webp", alt: "Salmon close-up" },
+      ],
     },
     {
-      image: "/images/popular-dishes/classic-margherita-pizza.webp",
-      alt: "Classic Margherita Pizza",
       name: "Classic Margherita Pizza",
       type: "Main course 🍕",
       description: "Crispy crust, fresh mozzarella, and basil a true classic.",
+      images: [
+        { src: "/images/popular-dishes/classic-margherita-pizza.webp", alt: "Margherita Pizza" },
+        { src: "/images/hero-section/dish-02.webp", alt: "Plate 2" },
+        { src: "/images/hero-section/dish-04.webp", alt: "Plate 4" },
+        { src: "/images/new-items/new-items-02.webp", alt: "Mango Chicken" },
+      ],
     },
     {
-      image: "/images/popular-dishes/spicy-shrimp-linguine.webp",
-      alt: "Spicy Shrimp Linguine",
       name: "Spicy Shrimp Linguine",
       type: "Main course 🥘",
       description: "Shrimp, chili, and creamy tomato sauce tossed to perfection.",
+      images: [
+        { src: "/images/popular-dishes/spicy-shrimp-linguine.webp", alt: "Shrimp Linguine" },
+        { src: "/images/hero-section/dish-03.webp", alt: "Plate 3" },
+        { src: "/images/hero-section/dish-05.webp", alt: "Plate 5" },
+        { src: "/images/new-items/new-items-03.webp", alt: "Tempeh Stir Fry" },
+      ],
     },
     {
-      image: "/images/popular-dishes/chocolate-lava-cake.webp",
-      alt: "Chocolate Lava Cake",
       name: "Chocolate Lava Cake",
       type: "Desert 🍫",
       description: "Warm molten cake with a scoop of vanilla ice cream.",
+      images: [
+        { src: "/images/popular-dishes/chocolate-lava-cake.webp", alt: "Lava Cake" },
+        { src: "/images/hero-section/dish-04.webp", alt: "Plate 4" },
+        { src: "/images/hero-section/dish-01.webp", alt: "Plate 1" },
+        { src: "/images/offers/offers-image-01.webp", alt: "Launch deal" },
+      ],
     },
   ],
 };
@@ -139,32 +154,48 @@ export const microgreens: CatalogSection = {
   id: "microgreens",
   items: [
     {
-      image: "/images/popular-dishes/grilled-herb-chicken.webp",
-      alt: "Grilled Herb Chicken",
       name: "Grilled Herb Chicken",
       type: "Main course 🥘",
       description: "Juicy chicken grilled with herbs and served with garlic sauce.",
+      images: [
+        { src: "/images/popular-dishes/grilled-herb-chicken.webp", alt: "Grilled Herb Chicken" },
+        { src: "/images/hero-section/dish-02.webp", alt: "Plate 2" },
+        { src: "/images/hero-section/dish-05.webp", alt: "Plate 5" },
+        { src: "/images/new-items/new-items-02.webp", alt: "Mango Chicken" },
+      ],
     },
     {
-      image: "/images/popular-dishes/classic-margherita-pizza.webp",
-      alt: "Classic Margherita Pizza",
       name: "Classic Margherita Pizza",
       type: "Main course 🍕",
       description: "Crispy crust, fresh mozzarella, and basil a true classic.",
+      images: [
+        { src: "/images/popular-dishes/classic-margherita-pizza.webp", alt: "Margherita Pizza" },
+        { src: "/images/hero-section/dish-01.webp", alt: "Plate 1" },
+        { src: "/images/hero-section/dish-04.webp", alt: "Plate 4" },
+        { src: "/images/offers/offers-image-02.webp", alt: "Bogo special" },
+      ],
     },
     {
-      image: "/images/popular-dishes/spicy-shrimp-linguine.webp",
-      alt: "Spicy Shrimp Linguine",
       name: "Spicy Shrimp Linguine",
       type: "Main course 🥘",
       description: "Shrimp, chili, and creamy tomato sauce tossed to perfection.",
+      images: [
+        { src: "/images/popular-dishes/spicy-shrimp-linguine.webp", alt: "Shrimp Linguine" },
+        { src: "/images/hero-section/dish-03.webp", alt: "Plate 3" },
+        { src: "/images/hero-section/dish-01.webp", alt: "Plate 1" },
+        { src: "/images/offers/offers-image-03.webp", alt: "Family meal" },
+      ],
     },
     {
-      image: "/images/popular-dishes/chocolate-lava-cake.webp",
-      alt: "Chocolate Lava Cake",
       name: "Chocolate Lava Cake",
       type: "Desert 🍫",
       description: "Warm molten cake with a scoop of vanilla ice cream.",
+      images: [
+        { src: "/images/popular-dishes/chocolate-lava-cake.webp", alt: "Lava Cake" },
+        { src: "/images/hero-section/dish-05.webp", alt: "Plate 5" },
+        { src: "/images/hero-section/dish-02.webp", alt: "Plate 2" },
+        { src: "/images/new-items/new-items-03.webp", alt: "Tempeh Stir Fry" },
+      ],
     },
   ],
 };
