@@ -4,6 +4,7 @@
  * Pure declarative: data in, cards out, no client JS.
  */
 import type { CatalogSection } from "../data/site";
+import { asset } from "../data/site";
 
 interface Props {
   catalog: CatalogSection;
@@ -28,7 +29,7 @@ const { catalog } = Astro.props;
           class="overflow-hidden border transition-colors duration-300 hover:border-primary"
         >
           <div class="bg-muted">
-            <img src={item.image} alt={item.alt} class="h-auto w-full" loading="lazy" />
+            <img src={asset(item.image)} alt={item.alt} class="h-auto w-full" loading="lazy" />
           </div>
           <div class="space-y-3 px-6 py-5">
             <h3 class="text-lg font-semibold">{item.name}</h3>

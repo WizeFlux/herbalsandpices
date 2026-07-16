@@ -3,7 +3,7 @@
  * Quality section — about-us image with overlapping stats card.
  * Icons are inline SVG (no JS needed).
  */
-import { qualityStats } from "../data/site";
+import { qualityStats, asset } from "../data/site";
 
 const iconPaths: Record<string, string> = {
   sparkles:
@@ -34,7 +34,7 @@ const iconPaths: Record<string, string> = {
 
     <div class="relative mb-8 h-full w-full sm:mb-16 lg:mb-24">
       <img
-        src="/images/about-us.webp"
+        src={asset("/images/about-us.webp")}
         alt="About us illustration"
         class="h-full w-full object-cover"
         loading="lazy"

@@ -8,7 +8,7 @@
    * All three stay in sync — selecting any one updates the others.
    */
   import { onMount } from "svelte";
-  import { heroSlides } from "../data/site";
+  import { heroSlides, asset } from "../data/site";
 
   let current = $state(0);
   let mainIndex = $state(0);
@@ -90,7 +90,7 @@
         >
           {#each heroSlides as slide (slide.id)}
             <div class="flex w-full shrink-0 items-center justify-center">
-              <img src={slide.img} alt={slide.imgAlt} class="size-95 object-contain" loading="lazy" />
+              <img src={asset(slide.img)} alt={slide.imgAlt} class="size-95 object-contain" loading="lazy" />
             </div>
           {/each}
         </div>
@@ -125,7 +125,7 @@
                   />
                 </svg>
               </div>
-              <img src={slide.img} alt={slide.imgAlt} class="size-25" loading="lazy" />
+              <img src={asset(slide.img)} alt={slide.imgAlt} class="size-25" loading="lazy" />
             </button>
           {/each}
         </div>

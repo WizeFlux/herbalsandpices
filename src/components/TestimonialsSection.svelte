@@ -4,7 +4,7 @@
    * Shows 2 cards on desktop, 1 on mobile.
    */
   import { onMount } from "svelte";
-  import { testimonials } from "../data/site";
+  import { testimonials, asset } from "../data/site";
 
   let scrollContainer: HTMLElement;
   let canPrev = $state(false);
@@ -93,7 +93,7 @@
           >
             <div class="flex items-center gap-3">
               <img
-                src={t.avatar}
+                src={asset(t.avatar)}
                 alt={t.name}
                 class="size-10 rounded-full object-cover"
                 loading="lazy"

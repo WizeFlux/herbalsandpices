@@ -3,7 +3,7 @@
  * Technologies section — hydroponic farm story with card grid.
  * Static, no interactivity needed.
  */
-import { technologies } from "../data/site";
+import { technologies, asset } from "../data/site";
 ---
 
 <section id="tech" class="py-8 sm:py-16 lg:py-24">
@@ -23,7 +23,7 @@ import { technologies } from "../data/site";
           class="border pt-0 shadow-none transition-colors duration-300 hover:border-primary max-lg:last:col-span-full"
         >
           <img
-            src={item.img}
+            src={asset(item.img)}
             alt={item.alt}
             class="aspect-video h-60 w-full object-cover"
             loading="lazy"
