@@ -1,0 +1,41 @@
+---
+/**
+ * Technologies section — hydroponic farm story with card grid.
+ * Static, no interactivity needed.
+ */
+import { technologies } from "../data/site";
+---
+
+<section id="tech" class="py-8 sm:py-16 lg:py-24">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto mb-12 flex max-w-2xl flex-col items-center space-y-4 text-center sm:mb-16 lg:mb-24">
+      <h2 class="text-2xl font-semibold md:text-3xl lg:text-4xl">Технологии</h2>
+      <p class="text-xl text-muted-foreground">
+        Наше производство — это закрытая экосистема на базе гидропоники. Мы используем только чистые
+        минеральные удобрения и биологическую защиту растений. Полная автоматизация и климат контроль
+        позволяют гарантировать однородное качество круглый год.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {technologies.map((item) => (
+        <article
+          class="border pt-0 shadow-none transition-colors duration-300 hover:border-primary max-lg:last:col-span-full"
+        >
+          <img
+            src={item.img}
+            alt={item.alt}
+            class="aspect-video h-60 w-full object-cover"
+            loading="lazy"
+          />
+          <div class="mb-2 gap-3 p-6">
+            <h3 class="mb-3 text-xl font-semibold">
+              <a href={item.blogLink}>{item.title}</a>
+            </h3>
+            <p class="text-base text-muted-foreground">{item.description}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
