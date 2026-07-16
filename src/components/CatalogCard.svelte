@@ -1,7 +1,7 @@
 <script lang="ts">
   /**
    * Catalog card with image gallery.
-   * Thumbnail buttons on top switch the main image.
+   * Left/right arrow buttons navigate through images.
    * Pure state: current index → which image shows.
    */
   import { asset, type CatalogItem } from "../data/site";
@@ -14,8 +14,12 @@
 
   let activeIndex = $state(0);
 
-  function selectImage(index: number) {
-    activeIndex = index;
+  function prev() {
+    activeIndex = (activeIndex - 1 + item.images.length) % item.images.length;
+  }
+
+  function next() {
+    activeIndex = (activeIndex + 1) % item.images.length;
   }
 </script>
 
@@ -23,29 +27,7 @@
   class="overflow-hidden border transition-colors duration-300 hover:border-primary"
 >
   <!-- Gallery -->
-  <div class="bg-muted">
-    <!-- Thumbnail nav buttons -->
-    {#if item.images.length > 1}
-      <div class="flex gap-1 p-2">
-        {#each item.images as image, i (i)}
-          <button
-            onclick={() => selectImage(i)}
-            class="relative shrink-0 overflow-hidden border-2 transition-all duration-200 {activeIndex === i
-              ? 'border-primary opacity-100'
-              : 'border-transparent opacity-60 hover:opacity-100'}"
-            aria-label="Image {i + 1}"
-          >
-            <img
-              src={asset(image.src)}
-              alt={image.alt}
-              class="h-12 w-16 object-cover"
-              loading="lazy"
-            />
-          </button>
-        {/each}
-      </div>
-    {/if}
-
+  <div class="group relative bg-muted">
     <!-- Main image -->
     <div class="relative aspect-[4/3] overflow-hidden">
       {#each item.images as image, i (i)}
@@ -59,6 +41,41 @@
         />
       {/each}
     </div>
+
+    {#if item.images.length > 1}
+      <!-- Left button -->
+      <button
+        onclick={prev}
+        class="absolute left-2 top-1/2 z-10 flex size-8 -translate-y-1/2 items-center justify-center rounded-full border bg-background/80 text-foreground backdrop-blur-sm transition-all duration-200 hover:bg-primary hover:text-primary-foreground"
+        aria-label="Previous image"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+      </button>
+
+      <!-- Right button -->
+      <button
+        onclick={next}
+        class="absolute right-2 top-1/2 z-10 flex size-8 -translate-y-1/2 items-center justify-center rounded-full border bg-background/80 text-foreground backdrop-blur-sm transition-all duration-200 hover:bg-primary hover:text-primary-foreground"
+        aria-label="Next image"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 18l6-6-6-6" />
+        </svg>
+      </button>
+
+      <!-- Dots indicator -->
+      <div class="absolute bottom-2 left-1/2 z-10 flex -translate-x-1/2 gap-1.5">
+        {#each item.images as _, i (i)}
+          <span
+            class="h-1.5 rounded-full transition-all duration-200 {activeIndex === i
+              ? 'w-4 bg-primary'
+              : 'w-1.5 bg-foreground/30'}"
+          ></span>
+        {/each}
+      </div>
+    {/if}
   </div>
 
   <!-- Text content -->
