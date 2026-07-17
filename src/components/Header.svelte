@@ -69,7 +69,7 @@
     <!-- Logo -->
     <a href="/#home" class="flex items-center gap-3">
       <LogoMark size={32} />
-      <span class="text-xl font-semibold text-primary">Травы – Приправы</span>
+      <span class="text-xl font-semibold text-muted-foreground">Травы – Приправы</span>
     </a>
 
     <!-- Desktop nav -->

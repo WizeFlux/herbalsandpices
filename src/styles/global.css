@@ -114,12 +114,14 @@
 /* ─── Section layout: spacing, alternating bg, accent lines ──── */
 /* nth-of-type counts only <section> elements, ignoring <astro-island>.
    Background on ::before (skewed), accent line on ::after (skewed).
-   Skew direction alternates: odd = ascending, even = descending. */
+   Skew direction alternates: odd = ascending, even = descending.
+   overflow:clip on x-axis only — lets skewed bg extend vertically
+   while preventing horizontal scroll. */
 
 main > section {
   position: relative;
   padding-block: var(--section-py);
-  overflow: hidden;
+  overflow-x: clip;
 }
 
 /* Content sits above the skewed background */
@@ -135,39 +137,41 @@ main > section > astro-island {
 }
 
 /* ── Skewed background band ── */
+/* Extends well beyond section edges so the skew covers everything.
+   No overflow:hidden so the diagonal color edge is visible. */
 main > section::before {
   content: "";
   position: absolute;
-  top: -3rem;
-  bottom: -3rem;
+  top: 0;
+  bottom: 0;
   left: 0;
   right: 0;
   z-index: -2;
   pointer-events: none;
 }
 
-/* Odd sections: ascending skew (-3deg) */
+/* Odd sections: ascending skew (-3deg) — bottom-right higher */
 main > section:nth-of-type(odd)::before {
   background: var(--background);
   transform: skewY(-3deg);
+  transform-origin: top left;
 }
 
-/* Even sections: descending skew (3deg) */
+/* Even sections: descending skew (3deg) — bottom-left higher */
 main > section:nth-of-type(even)::before {
   background: var(--muted);
   transform: skewY(3deg);
+  transform-origin: top right;
 }
 
 /* ── Accent line at the boundary ── */
-/* ::after is a thin skewed line at the bottom edge of each section.
-   It sits above the background (z-index -1) and matches the skew
-   direction so it follows the diagonal color edge. */
+/* Matches the skew direction so it sits exactly on the color edge. */
 main > section::after {
   content: "";
   position: absolute;
   bottom: 0;
-  left: -5%;
-  right: -5%;
+  left: 0;
+  right: 0;
   height: 0;
   z-index: -1;
   pointer-events: none;
@@ -176,18 +180,18 @@ main > section::after {
 
 /* Odd sections: ascending line */
 main > section:nth-of-type(odd)::after {
-  transform: skewY(-3deg) translateY(50%);
+  transform: skewY(-3deg);
+  transform-origin: top left;
 }
 
 /* Even sections: descending line */
 main > section:nth-of-type(even)::after {
-  transform: skewY(3deg) translateY(50%);
+  transform: skewY(3deg);
+  transform-origin: top right;
 }
 
-/* Last section: no accent line */
-main > section:last-of-type::after {
-  display: none;
-}
+/* Last section: show accent line before footer */
+/* (kept visible — footer gets matching border-top) */
 
 /* ─── Theme toggle icon animation ────────────────────────────── */
 /* Single keyframe drives both icons — no mismatched transitions */

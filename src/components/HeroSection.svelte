@@ -25,16 +25,37 @@
     return () => { if (timer) clearInterval(timer); };
   });
 
-  // Auto-scroll thumbnail strip to keep active item visible
+  // Auto-scroll thumbnail strip to keep active item centered.
+  // Uses custom easing for buttery-smooth scroll.
   $effect(() => {
     const btn = thumbButtons[current];
-    if (btn && thumbStrip) {
-      const stripRect = thumbStrip.getBoundingClientRect();
-      const btnRect = btn.getBoundingClientRect();
-      const offset = btnRect.left - stripRect.left - stripRect.width / 2 + btnRect.width / 2;
-      thumbStrip.scrollBy({ left: offset, behavior: "smooth" });
-    }
+    if (!btn || !thumbStrip) return;
+
+    const stripRect = thumbStrip.getBoundingClientRect();
+    const btnRect = btn.getBoundingClientRect();
+    const targetScrollLeft = thumbStrip.scrollLeft + (btnRect.left - stripRect.left) - stripRect.width / 2 + btnRect.width / 2;
+
+    smoothScrollTo(thumbStrip, targetScrollLeft, 600);
   });
+
+  function smoothScrollTo(el: HTMLElement, target: number, duration: number) {
+    const start = el.scrollLeft;
+    const distance = target - start;
+    const startTime = performance.now();
+
+    function easeInOutCubic(t: number) {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
+    function step(now: number) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      el.scrollLeft = start + distance * easeInOutCubic(progress);
+      if (progress < 1) requestAnimationFrame(step);
+    }
+
+    requestAnimationFrame(step);
+  }
 
   function select(index: number) {
     goTo(index);
