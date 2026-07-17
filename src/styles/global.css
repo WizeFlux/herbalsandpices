@@ -323,10 +323,11 @@ main > section::after {
   pointer-events: none;
 }
 
-/* Odd: ascending — top-left to bottom-right (matches clip-path top edge) */
+/* Odd: clip-path top edge goes from (0, offset) to (100%, 0) = ascending.
+   Gradient: bottom-left to top-right. */
 main > section:nth-of-type(odd)::after {
   background: linear-gradient(
-    to bottom right,
+    to top right,
     transparent calc(50% - 0.5px),
     var(--accent-line-color) calc(50% - 0.5px),
     var(--accent-line-color) calc(50% + 0.5px),
@@ -334,10 +335,11 @@ main > section:nth-of-type(odd)::after {
   );
 }
 
-/* Even: descending — bottom-left to top-right (matches clip-path top edge) */
+/* Even: clip-path top edge goes from (0, 0) to (100%, offset) = descending.
+   Gradient: top-left to bottom-right. */
 main > section:nth-of-type(even)::after {
   background: linear-gradient(
-    to top right,
+    to bottom right,
     transparent calc(50% - 0.5px),
     var(--accent-line-color) calc(50% - 0.5px),
     var(--accent-line-color) calc(50% + 0.5px),
