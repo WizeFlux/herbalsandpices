@@ -164,14 +164,9 @@
     @apply border-border outline-ring/50;
   }
 
+  /* Body: background + text color from theme tokens */
   body {
     @apply bg-background text-foreground;
-  }
-
-  /* Main fills triangular gaps left by section clip-path.
-     Background alternates to match the section that "owns" each gap. */
-  main {
-    background: var(--muted);
   }
 
   /* All buttons: pointer cursor (Tailwind v4 doesn't set this by default) */
@@ -215,23 +210,11 @@
  * the diagonal direction. It sits on the color boundary.
  * ────────────────────────────────────────────────────────────── */
 
-/* ── Diagonal edge offset (4rem = 64px on desktop) ──
-   Controls the steepness of the diagonal. Larger = more visible
-   diagonal but needs more padding compensation. */
-:root {
-  --skew-offset: 2rem;
-}
-@media (min-width: 768px) {
-  :root { --skew-offset: 3rem; }
-}
-@media (min-width: 1024px) {
-  :root { --skew-offset: 4rem; }
-}
-
-/* Base section: relative positioning, uniform padding, clip overflow. */
+/* Base section: relative positioning, uniform padding, clip overflow.
+   Extra padding compensates for skewY visual compression. */
 main > section {
   position: relative;
-  padding-block: calc(var(--section-py) + var(--skew-offset));
+  padding-block: calc(var(--section-py) + 2rem);
   overflow-x: clip;
 }
 
@@ -247,66 +230,48 @@ main > section > astro-island {
   display: contents;
 }
 
-/* ── Background band with diagonal edges (clip-path, no skew) ──
-   No extension needed. Each section's ::before covers exactly
-   its own bounds. The visible color boundary is each section's
-   own top edge. */
+/* ── Background band with diagonal edges (skewY, no clip-path) ──
+   skewY rotates the entire ::before. The top edge becomes diagonal.
+   transform-origin: top left — anchors at top so bottom moves.
+   No gaps because the rectangle covers the full area when skewed
+   (unlike clip-path which cuts triangles). */
 main > section::before {
   content: "";
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 0;
-  right: 0;
+  left: -2%;
+  right: -2%;
   z-index: -2;
   pointer-events: none;
+  transform-origin: top left;
 }
 
-/* Odd: ascending top edge (left low, right high) */
+/* Odd: ascending (left low, right high) — negative skew lifts right */
 main > section:nth-of-type(odd)::before {
   background: var(--background);
-  clip-path: polygon(
-    0 var(--skew-offset),
-    100% 0,
-    100% calc(100% - var(--skew-offset)),
-    0 100%
-  );
+  transform: skewY(-2deg);
 }
 
-/* Even: descending top edge (left high, right low) */
+/* Even: descending (left high, right low) — positive skew drops right */
 main > section:nth-of-type(even)::before {
   background: var(--muted);
-  clip-path: polygon(
-    0 0,
-    100% var(--skew-offset),
-    100% 100%,
-    0 calc(100% - var(--skew-offset))
-  );
+  transform: skewY(2deg);
 }
 
-/* First section: flat top (no diagonal, no accent line above) */
+/* First section: no skew (flat top boundary with header) */
 main > section:first-of-type::before {
-  clip-path: polygon(
-    0 0,
-    100% 0,
-    100% calc(100% - var(--skew-offset)),
-    0 100%
-  );
+  transform: none;
 }
 
-/* Last section: flat bottom (footer has its own border) */
+/* Last section: no skew (flat bottom boundary with footer) */
 main > section:last-of-type::before {
-  clip-path: polygon(
-    0 var(--skew-offset),
-    100% 0,
-    100% 100%,
-    0 100%
-  );
+  transform: none;
 }
 
 /* ── Accent line at the top of each section ──
-   Matches THIS section's ::before top edge exactly.
-   No extension, no DOM-order tricks — same polygon, same section. */
+   Uses skewY border-top, matching ::before direction.
+   Same angle, same transform-origin. */
 :root {
   --accent-line-color: color-mix(in oklch, var(--primary) 20%, transparent);
 }
@@ -315,35 +280,26 @@ main > section::after {
   content: "";
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
-  height: calc(var(--skew-offset) + 1px);
+  left: -2%;
+  right: -2%;
+  height: 0;
   z-index: -1;
   pointer-events: none;
-  background: var(--accent-line-color);
+  border-top: 1px solid var(--accent-line-color);
+  transform-origin: top left;
 }
 
-/* Odd: ascending — 0,offset → 100%,0 (matches ::before) */
+/* Odd: ascending — matches ::before skewY(-2deg) */
 main > section:nth-of-type(odd)::after {
-  clip-path: polygon(
-    0 var(--skew-offset),
-    100% 0,
-    100% 1px,
-    0 calc(var(--skew-offset) + 1px)
-  );
+  transform: skewY(-2deg);
 }
 
-/* Even: descending — 0,0 → 100%,offset (matches ::before) */
+/* Even: descending — matches ::before skewY(2deg) */
 main > section:nth-of-type(even)::after {
-  clip-path: polygon(
-    0 0,
-    100% var(--skew-offset),
-    100% calc(var(--skew-offset) + 1px),
-    0 1px
-  );
+  transform: skewY(2deg);
 }
 
-/* First section: no accent line at top (no boundary above it) */
+/* First section: no accent line at top */
 main > section:first-of-type::after {
   display: none;
 }
