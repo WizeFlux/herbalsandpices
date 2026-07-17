@@ -1,7 +1,7 @@
 ---
 /**
  * Reusable catalog section — renders greens or microgreens.
- * Each card is an interactive Svelte gallery (CatalogCard.svelte).
+ * Section spacing/alternation handled by global.css.
  */
 import type { CatalogSection } from "../data/site";
 import CatalogCard from "./CatalogCard.svelte";
@@ -13,10 +13,7 @@ interface Props {
 const { catalog } = Astro.props;
 ---
 
-<section
-  id={catalog.id}
-  class="relative"
->
+<section id={catalog.id}>
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="mx-auto mb-12 flex max-w-2xl flex-col items-center space-y-1 text-center sm:mb-16 lg:mb-24">
       <h2 class="text-2xl font-semibold md:text-3xl lg:text-4xl">{catalog.name}</h2>

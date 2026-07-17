@@ -1,54 +1,45 @@
 <script lang="ts">
   /**
    * Testimonials carousel — prev/next navigation through customer reviews.
-   * Shows 2 cards on desktop, 1 on mobile.
    */
   import { onMount } from "svelte";
   import { testimonials, asset } from "../data/site";
 
-  let scrollContainer: HTMLElement;
+  let scrollEl: HTMLElement;
   let canPrev = $state(false);
   let canNext = $state(true);
 
-  function updateNavState() {
-    if (!scrollContainer) return;
-    canPrev = scrollContainer.scrollLeft > 5;
-    canNext = scrollContainer.scrollLeft < scrollContainer.scrollWidth - scrollContainer.clientWidth - 5;
+  function updateNav() {
+    if (!scrollEl) return;
+    canPrev = scrollEl.scrollLeft > 5;
+    canNext = scrollEl.scrollLeft < scrollEl.scrollWidth - scrollEl.clientWidth - 5;
   }
 
-  function scrollBy(direction: 1 | -1) {
-    if (!scrollContainer) return;
-    const cardWidth = scrollContainer.querySelector("[data-card]")?.getBoundingClientRect().width ?? 320;
-    scrollContainer.scrollBy({ left: direction * cardWidth, behavior: "smooth" });
+  function scrollBy(dir: 1 | -1) {
+    if (!scrollEl) return;
+    const w = scrollEl.querySelector("[data-card]")?.getBoundingClientRect().width ?? 320;
+    scrollEl.scrollBy({ left: dir * w, behavior: "smooth" });
   }
 
   onMount(() => {
-    updateNavState();
-    scrollContainer?.addEventListener("scroll", updateNavState, { passive: true });
-    return () => scrollContainer?.removeEventListener("scroll", updateNavState);
+    updateNav();
+    scrollEl?.addEventListener("scroll", updateNav, { passive: true });
+    return () => scrollEl?.removeEventListener("scroll", updateNav);
   });
 
-  function renderStars(rating: number) {
+  function stars(rating: number) {
     const full = Math.floor(rating);
-    const hasHalf = rating % 1 >= 0.5;
-    return Array.from({ length: 5 }, (_, i) => {
-      if (i < full) return "full";
-      if (i === full && hasHalf) return "half";
-      return "empty";
-    });
+    const half = rating % 1 >= 0.5;
+    return Array.from({ length: 5 }, (_, i) =>
+      i < full ? "full" : i === full && half ? "half" : "empty"
+    );
   }
 </script>
 
-<section
-  id="testimonials"
-  class="relative"
->
+<section id="testimonials">
   <div class="mx-auto flex max-w-7xl gap-12 px-4 max-sm:flex-col sm:items-center sm:gap-16 sm:px-6 lg:gap-24 lg:px-8">
-    <!-- Left content -->
     <div class="space-y-4 sm:w-1/2 lg:w-1/3">
-      <span class="inline-block rounded-full border px-3 py-1 text-sm font-normal">
-        Testimonials
-      </span>
+      <span class="inline-block rounded-full border px-3 py-1 text-sm font-normal">Testimonials</span>
       <h2 class="text-2xl font-semibold sm:text-3xl lg:text-4xl">
         Customers<br />Feedback
       </h2>
@@ -79,10 +70,9 @@
       </div>
     </div>
 
-    <!-- Right: scrollable testimonial cards -->
     <div class="relative max-w-196 sm:w-1/2 lg:w-2/3">
       <div
-        bind:this={scrollContainer}
+        bind:this={scrollEl}
         class="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2"
         style="scrollbar-width: none;"
       >
@@ -92,18 +82,12 @@
             class="snap-start shrink-0 border p-6 space-y-5 transition-colors duration-300 hover:border-primary w-[300px] sm:w-[340px] lg:w-[320px]"
           >
             <div class="flex items-center gap-3">
-              <img
-                src={asset(t.avatar)}
-                alt={t.name}
-                class="size-10 rounded-full object-cover"
-                loading="lazy"
-              />
+              <img src={asset(t.avatar)} alt={t.name} class="size-10 rounded-full object-cover" loading="lazy" />
               <h4 class="flex-1 font-medium">{t.name}</h4>
             </div>
 
-            <!-- Star rating -->
             <div class="flex gap-0.5">
-              {#each renderStars(t.rating) as starType}
+              {#each stars(t.rating) as starType}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"

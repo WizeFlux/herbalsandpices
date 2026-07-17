@@ -78,6 +78,24 @@ export const heroSlides: HeroSlide[] = [
     imgAlt: "plate-5",
     comment: "Best dining experience in town. The staff is friendly and the menu is exceptional.",
   },
+  {
+    id: 6,
+    img: "/images/popular-dishes/grilled-herb-chicken.webp",
+    imgAlt: "grilled herb chicken",
+    comment: "Juicy chicken grilled with herbs and served with garlic sauce.",
+  },
+  {
+    id: 7,
+    img: "/images/popular-dishes/classic-margherita-pizza.webp",
+    imgAlt: "margherita pizza",
+    comment: "Crispy crust, fresh mozzarella, and basil — a true classic.",
+  },
+  {
+    id: 8,
+    img: "/images/new-items/new-items-01.webp",
+    imgAlt: "lemon herb salmon",
+    comment: "Perfect balance of zesty lemon and savoury herbs with fresh garden salad.",
+  },
 ];
 
 // ─── Catalog (Greens & Microgreens) ─────────────────────────────

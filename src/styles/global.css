@@ -29,6 +29,17 @@
   --font-kaushan-script: "Kaushan Script", cursive;
 
   --radius: 0.5rem;
+
+  --section-py: 2rem;
+  --section-gap: 0;
+  --accent-line: 1px solid color-mix(in oklch, var(--primary) 20%, transparent);
+}
+
+@media (min-width: 640px) {
+  :root { --section-py: 4rem; }
+}
+@media (min-width: 1024px) {
+  :root { --section-py: 6rem; }
 }
 
 .dark {
@@ -100,54 +111,56 @@
   }
 }
 
-/* ─── Alternating section backgrounds ────────────────────────── */
-/* Even sections get muted bg + accent line at top.
-   The accent line is a pseudo-element skew that creates the
-   visual separator between light/dark bands. */
+/* ─── Section layout: spacing, alternating bg, accent lines ──── */
+/* All section visual rhythm is controlled here via nth-child.
+   Individual <section> components stay clean — no py-* classes. */
+
 main > section {
   position: relative;
-  padding-block: 2rem;
-}
-@media (min-width: 640px) {
-  main > section { padding-block: 4rem; }
-}
-@media (min-width: 1024px) {
-  main > section { padding-block: 6rem; }
+  padding-block: var(--section-py);
 }
 
-/* Hero gets extra padding */
-main > section:first-child {
-  padding-block: 3rem;
-}
-@media (min-width: 640px) {
-  main > section:first-child { padding-block: 4rem; }
-}
-@media (min-width: 1024px) {
-  main > section:first-child { padding-block: 6rem; }
+/* Alternating backgrounds: even = muted, odd = transparent */
+main > section:nth-child(even) {
+  background: var(--muted);
 }
 
-/* Accent line between sections */
+/* Skewed accent band between sections */
 main > section::before {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -10;
+  z-index: -1;
   transform: skewY(-3deg);
   pointer-events: none;
 }
 
-/* Even children: muted background + bottom border accent */
+/* Even sections: accent line at bottom */
 main > section:nth-child(even)::before {
-  background: var(--muted);
-  border-bottom: 1px solid color-mix(in oklch, var(--primary) 20%, transparent);
+  border-bottom: var(--accent-line);
 }
 
-/* Odd children: transparent background + top border accent */
+/* Odd sections: accent line at top */
 main > section:nth-child(odd)::before {
-  border-top: 1px solid color-mix(in oklch, var(--primary) 20%, transparent);
+  border-top: var(--accent-line);
 }
 
-/* Dark mode adjustments for the accent lines */
-.dark main > section:nth-child(even)::before {
-  background: var(--muted);
+/* ─── Theme toggle icon animation ────────────────────────────── */
+/* Single keyframe drives both icons — no mismatched transitions */
+@keyframes theme-icon-spin {
+  0%   { opacity: 0; transform: scale(0) rotate(-90deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+.theme-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: theme-icon-spin 0.4s ease forwards;
+}
+
+.theme-icon-hidden {
+  animation: theme-icon-spin 0.4s ease reverse forwards;
 }
