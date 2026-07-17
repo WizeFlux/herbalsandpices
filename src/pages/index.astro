@@ -1,14 +1,15 @@
 ---
 /**
  * Main page — assembles all sections in order.
+ * Section order determines nth-of-type alternation in global.css.
  */
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.svelte";
-import HeroSection from "../components/HeroSection.svelte";
+import HeroSectionWrapper from "../components/HeroSectionWrapper.astro";
 import CatalogSection from "../components/CatalogSection.astro";
+import TestimonialsSectionWrapper from "../components/TestimonialsSectionWrapper.astro";
 import TechnologiesSection from "../components/TechnologiesSection.astro";
 import QualitySection from "../components/QualitySection.astro";
-import TestimonialsSection from "../components/TestimonialsSection.svelte";
 import ContactUsSection from "../components/ContactUsSection.astro";
 import Footer from "../components/Footer.astro";
 
@@ -19,16 +20,12 @@ import { greens, microgreens } from "../data/site";
   <Header client:load />
 
   <main class="flex flex-col pt-16 *:scroll-mt-16">
-    <HeroSection client:load />
-
+    <HeroSectionWrapper />
     <CatalogSection catalog={greens} />
     <CatalogSection catalog={microgreens} />
-
-    <TestimonialsSection client:visible />
-
+    <TestimonialsSectionWrapper />
     <TechnologiesSection />
     <QualitySection />
-
     <ContactUsSection />
   </main>
 

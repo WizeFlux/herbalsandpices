@@ -130,6 +130,13 @@ main > section > * {
   z-index: 1;
 }
 
+/* Svelte components render inside <astro-island> — also need z-index */
+main > section > astro-island {
+  position: relative;
+  z-index: 1;
+  display: contents;
+}
+
 /* Skewed background band — extends beyond section to cover skew gaps */
 main > section::before {
   content: "";

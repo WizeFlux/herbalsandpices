@@ -30,8 +30,7 @@
   }
 </script>
 
-<section id="home" class="relative flex-1">
-  <div class="mx-auto flex h-full max-w-7xl flex-col gap-16 px-4 sm:px-6 lg:px-8">
+<div class="flex h-full flex-col gap-16">
     <!-- Hero header: text + main carousel -->
     <div class="grid grid-cols-1 gap-6 gap-y-12 md:gap-y-16 lg:grid-cols-5">
       <div class="flex w-full flex-col justify-center gap-5 max-lg:items-center lg:col-span-3">
@@ -113,4 +112,3 @@
       </div>
     </div>
   </div>
-</section>

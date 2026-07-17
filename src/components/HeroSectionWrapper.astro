@@ -1,0 +1,13 @@
+---
+/**
+ * Hero section wrapper — provides <section> for CSS nth-of-type.
+ * The interactive Svelte component renders inside.
+ */
+import HeroSection from "./HeroSection.svelte";
+---
+
+<section id="home" class="flex-1">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <HeroSection client:load />
+  </div>
+</section>

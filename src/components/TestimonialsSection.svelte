@@ -37,8 +37,7 @@
   }
 </script>
 
-<section id="testimonials">
-  <div class="mx-auto flex max-w-7xl gap-12 px-4 max-sm:flex-col sm:items-center sm:gap-16 sm:px-6 lg:gap-24 lg:px-8">
+<div class="mx-auto flex max-w-7xl gap-12 px-4 max-sm:flex-col sm:items-center sm:gap-16 sm:px-6 lg:gap-24 lg:px-8">
     <div class="space-y-4 sm:w-1/2 lg:w-1/3">
       <span class="inline-block rounded-full border px-3 py-1 text-sm font-normal">Testimonials</span>
       <h2 class="text-2xl font-semibold sm:text-3xl lg:text-4xl">
@@ -111,4 +110,3 @@
       </div>
     </div>
   </div>
-</section>
