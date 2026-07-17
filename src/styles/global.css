@@ -301,29 +301,48 @@ main > section:last-of-type::before {
 }
 
 /* ── Accent line at the top of each section ──
-   Sits on the color boundary (top edge of this section's ::before).
-   Uses skewY — close enough to the clip-path angle for a 1px line. */
+   Uses a linear-gradient diagonal line that EXACTLY matches the
+   clip-path edge angle. The ::after is a band (height = skew-offset)
+   at the top of the section. The gradient draws a 1px diagonal line
+   corner-to-corner, matching the clip-path top edge precisely.
+
+   - Odd:  line from bottom-left to top-right (to top right)
+   - Even: line from top-left to bottom-right (to bottom right) */
+:root {
+  --accent-line-color: color-mix(in oklch, var(--primary) 20%, transparent);
+}
+
 main > section::after {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 0;
+  height: var(--skew-offset);
   z-index: -1;
   pointer-events: none;
-  border-bottom: var(--accent-line);
-  transform-origin: top left;
 }
 
-/* Odd: ascending line (matches ::before top edge) */
+/* Odd: ascending — bottom-left to top-right */
 main > section:nth-of-type(odd)::after {
-  transform: skewY(-3deg);
+  background: linear-gradient(
+    to top right,
+    transparent calc(50% - 0.5px),
+    var(--accent-line-color) calc(50% - 0.5px),
+    var(--accent-line-color) calc(50% + 0.5px),
+    transparent calc(50% + 0.5px)
+  );
 }
 
-/* Even: descending line */
+/* Even: descending — top-left to bottom-right */
 main > section:nth-of-type(even)::after {
-  transform: skewY(3deg);
+  background: linear-gradient(
+    to bottom right,
+    transparent calc(50% - 0.5px),
+    var(--accent-line-color) calc(50% - 0.5px),
+    var(--accent-line-color) calc(50% + 0.5px),
+    transparent calc(50% + 0.5px)
+  );
 }
 
 /* First section: no accent line at top (no boundary above it) */
