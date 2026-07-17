@@ -206,11 +206,21 @@
 
 /* Base section: relative positioning for pseudo-elements, responsive padding.
    overflow-x: clip prevents horizontal scroll from skewed backgrounds
-   while allowing vertical overflow for the diagonal edge. */
+   while allowing vertical overflow for the diagonal edge.
+   Extra padding-block-start compensates for the skew pulling the
+   background up — without it, content sits too close to the top edge
+   on sections where the bg edge is higher on the left side. */
 main > section {
   position: relative;
   padding-block: var(--section-py);
   overflow-x: clip;
+}
+
+/* Even sections (descending skew) need extra top padding:
+   the bg band's top-left corner rises above the section box,
+   making content appear to lack top padding. */
+main > section:nth-of-type(even) {
+  padding-block-start: calc(var(--section-py) + 1.5rem);
 }
 
 /* Content (direct children + astro-island wrappers) sits above background.
