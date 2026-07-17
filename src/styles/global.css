@@ -112,39 +112,51 @@
 }
 
 /* ─── Section layout: spacing, alternating bg, accent lines ──── */
-/* All section visual rhythm is controlled here via nth-of-type.
-   nth-of-type counts only <section> elements, ignoring <astro-island>
-   wrappers that Svelte client:load/visible injects into <main>. */
+/* nth-of-type counts only <section> elements, ignoring <astro-island>
+   wrappers from Svelte client:load/visible.
+
+   The background lives on the skewed ::before pseudo-element, NOT on
+   the section itself. This makes the color transition diagonal.
+   The accent line (border-bottom on ::before) appears at every junction. */
 
 main > section {
   position: relative;
   padding-block: var(--section-py);
 }
 
-/* Alternating backgrounds: even = muted, odd = transparent */
-main > section:nth-of-type(even) {
-  background: var(--muted);
+/* Content sits above the skewed background band */
+main > section > * {
+  position: relative;
+  z-index: 1;
 }
 
-/* Skewed accent band — sits behind content, spans full section */
+/* Skewed background band — extends beyond section to cover skew gaps */
 main > section::before {
   content: "";
   position: absolute;
-  inset: 0;
+  top: -2rem;
+  bottom: 0;
+  left: 0;
+  right: 0;
   z-index: -1;
   transform: skewY(-3deg);
   pointer-events: none;
-}
-
-/* Even sections: accent line at bottom of the skew */
-main > section:nth-of-type(even)::before {
-  background: var(--muted);
   border-bottom: var(--accent-line);
 }
 
-/* Odd sections: accent line at top of the skew */
+/* Odd sections: normal background */
 main > section:nth-of-type(odd)::before {
-  border-top: var(--accent-line);
+  background: var(--background);
+}
+
+/* Even sections: muted background */
+main > section:nth-of-type(even)::before {
+  background: var(--muted);
+}
+
+/* Last section: no accent line at bottom */
+main > section:last-of-type::before {
+  border-bottom: none;
 }
 
 /* ─── Theme toggle icon animation ────────────────────────────── */
