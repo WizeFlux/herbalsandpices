@@ -1,5 +1,20 @@
+/**
+ * Catalog data — two product sections: greens (Пряные травы) and
+ * microgreens (Микрозелень).
+ *
+ * Each section is rendered by CatalogSection.astro, which maps over
+ * `items` and renders a CatalogCard.svelte for each product.
+ *
+ * Each card has a multi-image gallery navigable with left/right arrows.
+ * The first image is shown by default.
+ *
+ * Note: product data is currently placeholder (restaurant dishes).
+ * In production these would be actual herb/microgreen products.
+ */
+
 import type { CatalogSection } from "./lib/types";
 
+/** Пряные травы — herbs section (odd position in page, section #2). */
 export const greens: CatalogSection = {
   name: "Пряные травы",
   text: "Мы выращиваем сорта, которые задают тон всему блюду. Наш базилик и мята — это концентрат эфирных масел. Доставляем в день срезки в многоразовых контейнерах: вы получаете идеально свежий лист со сроком хранения 7-14 дней.",
@@ -52,6 +67,7 @@ export const greens: CatalogSection = {
   ],
 };
 
+/** Микрозелень — microgreens section (even position in page, section #3). */
 export const microgreens: CatalogSection = {
   name: "Микрозелень",
   text: "Идеальный финальный штрих для ваших гастрономических шедевров. Мы поставляем микрозелень в многоразовых контейнерах на подложке из нетканой сетки: это гарантирует чистоту листа без песка и увеличивает срок хранения.",

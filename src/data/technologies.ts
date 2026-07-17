@@ -1,3 +1,12 @@
+/**
+ * Technologies section data — cards describing the farm's processes.
+ *
+ * Each card has an image, title, description, and a blog link.
+ * Rendered by TechnologiesSection.astro in a 3-column grid.
+ *
+ * Note: blogLink is "#" (placeholder) until blog pages are created.
+ */
+
 import type { Technology } from "./lib/types";
 
 export const technologies: Technology[] = [

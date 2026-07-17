@@ -1,3 +1,13 @@
+/**
+ * Quality stats — numeric highlights shown in the Quality section.
+ *
+ * Each stat has an icon (Iconify name stored directly), a display
+ * value (e.g. "20+"), and a two-line description.
+ *
+ * Rendered by QualitySection.astro as an overlapping card on top
+ * of the about-us image.
+ */
+
 import type { QualityStat } from "./lib/types";
 
 export const qualityStats: QualityStat[] = [

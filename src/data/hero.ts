@@ -1,3 +1,18 @@
+/**
+ * Hero carousel slides — the main image carousel at the top of the page.
+ *
+ * Each slide has:
+ * - An image (dish photo) shown in the main carousel
+ * - A duplicate of that image shown as a thumbnail in the strip below
+ * - A short comment shown in the comments area
+ *
+ * The carousel auto-advances every 3 seconds (see HeroSection.svelte).
+ * Clicking a thumbnail jumps to that slide and resets the timer.
+ *
+ * Images are a mix of hero-section dishes and popular-dishes/new-items
+ * to create visual variety in the gallery.
+ */
+
 import type { HeroSlide } from "./lib/types";
 
 export const heroSlides: HeroSlide[] = [
@@ -31,6 +46,7 @@ export const heroSlides: HeroSlide[] = [
     imgAlt: "plate-5",
     comment: "Best dining experience in town. The staff is friendly and the menu is exceptional.",
   },
+  // ── Additional slides from other sections for variety ──
   {
     id: 6,
     img: "/images/popular-dishes/grilled-herb-chicken.webp",

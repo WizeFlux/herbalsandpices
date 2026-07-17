@@ -1,3 +1,14 @@
+/**
+ * Customer testimonials — reviews shown in the Testimonials carousel.
+ *
+ * Each testimonial has a name, avatar, star rating (0–5, halves
+ * supported), and review text. The carousel scrolls horizontally
+ * with prev/next buttons and snap scrolling.
+ *
+ * Rendered by TestimonialsSection.svelte.
+ * Star ratings are rendered as filled/half/empty lucide:star icons.
+ */
+
 import type { Testimonial } from "./lib/types";
 
 export const testimonials: Testimonial[] = [
@@ -29,6 +40,7 @@ export const testimonials: Testimonial[] = [
     content:
       "Fresh ingredients, balanced flavors, and excellent presentation define this bistro. The staff is polite and always smiling. Perfect for a pleasant dining experience.",
   },
+  // ── Russian-language reviews from local customers ──
   {
     name: "Elena Volkova",
     avatar: "/images/hero-section/avatar-01.webp",
@@ -48,6 +60,6 @@ export const testimonials: Testimonial[] = [
     avatar: "/images/hero-section/avatar-03.webp",
     rating: 5,
     content:
-      "Тестовый набор получил бесплатно, как и обещали. Через неделю стали постоянным клиентом. Мята и кинза — просто находка для наших десертов и соусов.",
+      "Тестовый набор получила бесплатно, как и обещали. Через неделю стали постоянным клиентом. Мята и кинза — просто находка для наших десертов и соусов.",
   },
 ];
