@@ -231,13 +231,14 @@ main > section > astro-island {
    Fills the entire section with the section's color, then skews it.
    The TOP edge of this band is the visible color boundary.
    transform-origin: bottom left anchors the skew so the top moves.
-   Extended beyond section bounds (top/bottom: -2rem) so the skew
-   doesn't leave gaps where the previous/next section shows through. */
+   Extended -2rem above (top) to cover the skew gap where the
+   previous section's bg would show through.
+   No bottom extension — the next section's top extension covers that. */
 main > section::before {
   content: "";
   position: absolute;
   top: -2rem;
-  bottom: -2rem;
+  bottom: 0;
   left: 0;
   right: 0;
   z-index: -2;
@@ -260,13 +261,11 @@ main > section:nth-of-type(even)::before {
 /* ── Accent line at section boundary (::after) ──
    A thin diagonal line at the bottom of each section.
    Must match the NEXT section's ::before top edge direction,
-   because the line sits on the boundary between section N and N+1.
-   ::before extends to top: -2rem, so the visible color edge is
-   2rem above the section's bottom. ::after must match: bottom: 2rem. */
+   because the line sits on the boundary between section N and N+1. */
 main > section::after {
   content: "";
   position: absolute;
-  bottom: 2rem;
+  bottom: 0;
   left: 0;
   right: 0;
   height: 0;
