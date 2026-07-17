@@ -1,6 +1,13 @@
 ---
 /**
  * Testimonials section wrapper — provides <section> for CSS nth-of-type.
+ *
+ * Same pattern as HeroSectionWrapper.astro:
+ * Svelte client:visible wraps content in <astro-island>, which breaks
+ * main > section CSS targeting. This Astro wrapper provides the
+ * <section> element as a direct child of <main>.
+ *
+ * client:visible: hydrate when scrolled into view (below the fold).
  */
 import TestimonialsSection from "./TestimonialsSection.svelte";
 ---

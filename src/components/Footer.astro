@@ -1,21 +1,38 @@
 ---
 /**
- * Footer — logo, nav links, copyright.
+ * Footer — logo, navigation links, copyright.
+ *
+ * Layout: 3-column flex (logo | links | copyright).
+   Stacks vertically on mobile (max-md:flex-col).
+
+ * Styling matches the header:
+ * - bg-muted (same as header)
+ * - border-t border-primary/20 (top border, same color as header's bottom)
+ * - shadow pointing upward (toward the page content above)
+ *
+ * Logo is rendered via Logo.astro (astro-icon custom icon).
+ * Links use plain <a href> (not smooth scroll — footer links are
+ * less critical and native anchor jump is fine).
  */
 import { footerLinks } from "../data";
 import Logo from "./Logo.astro";
+
+/** Current year for copyright text. */
 const year = new Date().getFullYear();
 ---
 
+<!-- Shadow: upward direction (negative Y offset) to cast onto page content -->
 <footer class="border-t border-primary/20 bg-muted shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
   <div
     class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-4 max-md:flex-col sm:px-6 sm:py-6 md:gap-6 md:py-8"
   >
+    <!-- Logo + site name (clickable link to top) -->
     <a href="/#home" class="flex items-center gap-3">
       <Logo />
       <span class="text-xl font-semibold text-primary">Травы – Приправы</span>
     </a>
 
+    <!-- Navigation links (mirrors header nav) -->
     <div class="flex items-center gap-5 whitespace-nowrap">
       {footerLinks.map((item) => (
         <a
@@ -27,6 +44,7 @@ const year = new Date().getFullYear();
       ))}
     </div>
 
+    <!-- Copyright notice -->
     <p class="text-center text-balance text-muted-foreground">
       ©{year} <a href="/#home" class="hover:underline">Wizeflux</a>, Made with ❤️
     </p>

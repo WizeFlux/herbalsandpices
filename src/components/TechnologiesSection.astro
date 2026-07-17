@@ -1,13 +1,27 @@
 ---
 /**
- * Technologies section — hydroponic farm story with card grid.
- * Section spacing/alternation handled by global.css.
+ * Technologies section — hydroponic farm story with image card grid.
+ *
+ * Displays a heading + description about the farm's technology,
+ * followed by a responsive grid of article cards (image + title + link).
+ *
+ * Grid breakpoints:
+ * - Mobile:  1 column
+ * - Tablet:  2 columns (md)
+ * - Desktop: 3 columns (lg)
+ *
+ * On lg- screens, the last card spans the full width
+ * (max-lg:last:col-span-full) to avoid a lonely card.
+ *
+ * Section spacing, alternating background, and accent line are
+ * handled by global.css (nth-of-type rules).
  */
 import { technologies, asset } from "../data";
 ---
 
 <section id="tech">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- Centered heading + description -->
     <div class="mx-auto mb-12 flex max-w-2xl flex-col items-center space-y-4 text-center sm:mb-16 lg:mb-24">
       <h2 class="text-2xl font-semibold md:text-3xl lg:text-4xl">Технологии</h2>
       <p class="text-xl text-muted-foreground">
@@ -17,17 +31,20 @@ import { technologies, asset } from "../data";
       </p>
     </div>
 
+    <!-- Technology card grid: image on top, text below -->
     <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
       {technologies.map((item) => (
         <article
           class="border pt-0 shadow-none transition-colors duration-300 hover:border-primary max-lg:last:col-span-full"
         >
+          <!-- Card image: 16:9 aspect ratio, fixed height on desktop -->
           <img
             src={asset(item.img)}
             alt={item.alt}
             class="aspect-video h-60 w-full object-cover"
             loading="lazy"
           />
+          <!-- Card text: title (linked) + description -->
           <div class="mb-2 gap-3 p-6">
             <h3 class="mb-3 text-xl font-semibold">
               <a href={item.blogLink}>{item.title}</a>

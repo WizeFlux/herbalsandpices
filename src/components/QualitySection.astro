@@ -1,7 +1,19 @@
 ---
 /**
  * Quality section — about-us image with overlapping stats card.
- * Section spacing/alternation handled by global.css.
+ *
+ * Layout:
+ * 1. Centered heading + description about quality standards
+ * 2. A large about-us image
+ * 3. A stats card grid overlapping the bottom of the image (desktop)
+ *
+ * On mobile/tablet the stats card appears below the image (stacked).
+ * On desktop (lg+) the card is absolutely positioned, centered,
+ * overlapping the image bottom by 25 units (-bottom-25).
+ *
+ * Stats icons use astro-icon (Iconify names stored in quality.ts).
+ * Section spacing, alternating background, and accent line are
+ * handled by global.css (nth-of-type rules).
  */
 import { qualityStats, asset } from "../data";
 import { Icon } from "astro-icon/components";
@@ -9,6 +21,7 @@ import { Icon } from "astro-icon/components";
 
 <section id="quality">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- Centered heading + description -->
     <div class="mx-auto mb-12 flex max-w-3xl flex-col items-center space-y-4 text-center md:mb-16 lg:mb-24">
       <h2 class="text-2xl font-semibold tracking-tight md:text-3xl lg:text-4xl">Качество</h2>
       <p class="text-xl text-muted-foreground">
@@ -19,7 +32,10 @@ import { Icon } from "astro-icon/components";
       </p>
     </div>
 
+    <!-- Image + overlapping stats card.
+         Relative positioning anchors the absolutely-positioned stats card. -->
     <div class="relative mb-8 h-full w-full sm:mb-16 lg:mb-24">
+      <!-- Full-width about-us image -->
       <img
         src={asset("/images/about-us.webp")}
         alt="About us illustration"
@@ -27,6 +43,10 @@ import { Icon } from "astro-icon/components";
         loading="lazy"
       />
 
+      <!-- Stats card grid.
+           Mobile/tablet: normal flow, 1-2 columns.
+           Desktop (lg+): absolutely positioned, centered, 4 columns,
+           overlapping the image bottom. -->
       <div
         class="grid gap-10 border bg-background p-8 sm:max-lg:grid-cols-2 lg:absolute lg:-bottom-25 lg:left-1/2 lg:w-3/4 lg:-translate-x-1/2 lg:grid-cols-4 lg:px-10"
       >

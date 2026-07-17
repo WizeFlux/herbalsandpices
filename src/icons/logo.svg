@@ -1,3 +1,18 @@
+<!--
+  Brand logo SVG — used by astro-icon as a custom icon.
+
+  astro-icon reads this file from src/icons/ and makes it available
+  as <Icon name="logo" /> in Astro components (via Logo.astro).
+
+  The SVG uses CSS variables for colors so it adapts to light/dark theme:
+  - fill="var(--primary)"            → green circle background
+  - fill="var(--primary-foreground)" → white leaf mark
+
+  For Svelte components (Header.svelte), the same SVG is inlined
+  in LogoMark.svelte (Svelte can't use astro-icon).
+
+  viewBox: 32×32 — a circular badge with an herb leaf inside.
+-->
 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
   <rect width="32" height="32" rx="16" transform="matrix(1 0 0 -1 0 32)" fill="var(--primary)" />
   <path

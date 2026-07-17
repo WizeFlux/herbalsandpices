@@ -1,15 +1,25 @@
 ---
 /**
- * Logo component — uses astro-icon custom icon from src/icons/logo.svg.
- * Single source of truth for the brand mark.
+ * Logo component for Astro — renders the brand logo via astro-icon.
+ *
+ * The SVG source lives in src/icons/logo.svg.
+ * astro-icon reads that file at build time and inlines the SVG
+ * into the HTML — zero runtime JS.
+ *
+ * Used by: Footer.astro
+ *
+ * For Svelte components (Header.svelte), use LogoMark.svelte instead
+ * (Svelte can't use astro-icon components).
  */
 import { Icon } from "astro-icon/components";
 
 interface Props {
+  /** Optional CSS class for sizing/positioning. */
   class?: string;
 }
 
 const { class: className } = Astro.props;
 ---
 
+<!-- "logo" maps to src/icons/logo.svg via astro-icon convention -->
 <Icon name="logo" class={className} />

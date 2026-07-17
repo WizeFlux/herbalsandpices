@@ -1,25 +1,47 @@
 ---
 /**
- * Reusable catalog section — renders greens or microgreens.
- * Section spacing/alternation handled by global.css.
+ * Catalog section — reusable wrapper for greens or microgreens.
+ *
+ * Takes a `catalog` prop (CatalogSection type) containing:
+ * - Section name (heading) and description text
+ * - An id for anchor navigation (#greens / #microgreens)
+ * - An array of product items
+ *
+ * Renders a centered heading + description, then a responsive grid
+ * of CatalogCard.svelte components.
+ *
+ * Grid breakpoints:
+ * - Mobile:  1 column
+ * - Tablet:  2 columns (md)
+ * - Desktop: 4 columns (xl)
+ *
+ * Section spacing, alternating background, and accent line are
+ * handled by global.css (nth-of-type rules).
+ *
+ * CatalogCard uses client:visible — hydrates when scrolled into view
+ * (lazy loading for better initial page performance).
  */
 import type { CatalogSection } from "../data";
 import CatalogCard from "./CatalogCard.svelte";
 
 interface Props {
+  /** Catalog data: heading, description, and product items. */
   catalog: CatalogSection;
 }
 
 const { catalog } = Astro.props;
 ---
 
+<!-- Section id is used for anchor navigation (#greens, #microgreens) -->
 <section id={catalog.id}>
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- Centered heading + description block -->
     <div class="mx-auto mb-12 flex max-w-2xl flex-col items-center space-y-1 text-center sm:mb-16 lg:mb-24">
       <h2 class="text-2xl font-semibold md:text-3xl lg:text-4xl">{catalog.name}</h2>
       <p class="text-xl text-muted-foreground">{catalog.text}</p>
     </div>
 
+    <!-- Product grid: responsive columns (1 → 2 → 4) -->
     <div class="grid gap-6 md:grid-cols-2 lg:gap-y-10 xl:grid-cols-4">
       {catalog.items.map((item) => (
         <CatalogCard client:visible item={item} />

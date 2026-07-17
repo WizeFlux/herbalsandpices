@@ -1,7 +1,20 @@
 ---
 /**
- * Main page — assembles all sections in order.
- * Section order determines nth-of-type alternation in global.css.
+ * Index page — the single landing page.
+ *
+ * Assembles all sections in order. The order matters because
+ * global.css uses nth-of-type to alternate section backgrounds:
+ *
+ * 1. HeroSectionWrapper      (odd  → background bg, ascending edge)
+ * 2. CatalogSection (greens) (even → muted bg, descending edge)
+ * 3. CatalogSection (microgreens) (odd → background bg)
+ * 4. TestimonialsSectionWrapper (even → muted bg)
+ * 5. TechnologiesSection     (odd → background bg)
+ * 6. QualitySection          (even → muted bg)
+ * 7. ContactUsSection        (odd → background bg)
+ *
+ * Header is outside <main> (fixed positioning).
+ * Footer is outside <main> (has its own bg-muted + border).
  */
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.svelte";
@@ -17,8 +30,12 @@ import { greens, microgreens } from "../data";
 ---
 
 <Layout>
+  <!-- Header: fixed top bar (outside main, doesn't affect section counting) -->
   <Header client:load />
 
+  <!-- Main: all sections inside <main> for nth-of-type targeting.
+       pt-16: offset for fixed header height (h-16 = 64px).
+       scroll-mt-16: anchor links account for header height. -->
   <main class="flex flex-col pt-16 *:scroll-mt-16">
     <HeroSectionWrapper />
     <CatalogSection catalog={greens} />
@@ -29,5 +46,6 @@ import { greens, microgreens } from "../data";
     <ContactUsSection />
   </main>
 
+  <!-- Footer: outside main, has its own bg + border -->
   <Footer />
 </Layout>

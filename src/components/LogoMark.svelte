@@ -1,16 +1,28 @@
 <script lang="ts">
   /**
-   * Brand logo mark — single source of truth for the logo SVG.
-   * Used in Header.svelte (Svelte can't use astro-icon).
-   * Footer.astro uses Logo.astro (astro-icon) with the same SVG file.
+   * Brand logo mark — Svelte version of the logo SVG.
+   *
+   * WHY TWO LOGO COMPONENTS:
+   * - Logo.astro: uses astro-icon (build-time SVG inlining) for Astro files
+   * - LogoMark.svelte: inline SVG for Svelte files (can't use astro-icon)
+   *
+   * Both render the same SVG (src/icons/logo.svg).
+   * The SVG uses CSS variables (var(--primary), var(--primary-foreground))
+   * so the logo automatically adapts to light/dark theme.
+   *
+   * Used by: Header.svelte
    */
   interface Props {
+    /** Logo size in pixels (width = height, viewBox is 32×32). */
     size?: number;
   }
 
   let { size = 32 }: Props = $props();
 </script>
 
+<!-- 32×32 viewBox: circle background + herb leaf path.
+     fill="var(--primary)": green circle (theme-aware).
+     fill="var(--primary-foreground)": white leaf (theme-aware). -->
 <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 32 32" fill="none">
   <rect width="32" height="32" rx="16" transform="matrix(1 0 0 -1 0 32)" fill="var(--primary)" />
   <path

@@ -1,40 +1,84 @@
+/* ──────────────────────────────────────────────────────────────
+ * global.css — Theme tokens, base styles, section layout system
+ *
+ * This file is the single source of truth for:
+ * 1. Color tokens (light/dark) — OKLCH color space
+ * 2. Tailwind theme mapping (@theme inline)
+ * 3. Base element styles (borders, body, buttons)
+ * 4. Section layout: alternating bg, diagonal edges, accent lines
+ * 5. Theme toggle icon animation
+ *
+ * Tailwind v4 syntax: @import "tailwindcss" (no config file needed).
+ * ────────────────────────────────────────────────────────────── */
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Dark mode: triggered by .dark class on <html> (set by Layout.astro
+   no-flash script + Header.svelte theme toggle). */
 @custom-variant dark (&:is(.dark *));
 
+/* ──────────────────────────────────────────────────────────────
+ * 1. Color tokens — Light theme (:root)
+ *
+ * All colors use OKLCH (OK Lab Color with Hue) for perceptually
+ * uniform lightness. The green hue (~144°) defines the brand palette.
+ * ────────────────────────────────────────────────────────────── */
 :root {
+  /* Page background — warm off-white */
   --background: oklch(0.97 0.01 87.41);
+  /* Primary text — dark green */
   --foreground: oklch(0.31 0.02 148.20);
+
+  /* Card surfaces — slightly different from background for depth */
   --card: oklch(0.97 0.01 87.41);
   --card-foreground: oklch(0.30 0.04 29.20);
+
+  /* Popovers / dropdowns — same as background */
   --popover: oklch(0.97 0.01 87.41);
   --popover-foreground: oklch(0.30 0.04 29.20);
+
+  /* Brand color — medium green, used for buttons, links, accents */
   --primary: oklch(0.52 0.13 144.33);
-  --primary-foreground: oklch(1.00 0 0);
+  --primary-foreground: oklch(1.00 0 0); /* white text on primary */
+
+  /* Secondary — lighter green for subtle backgrounds */
   --secondary: oklch(0.96 0.02 147.54);
   --secondary-foreground: oklch(0.43 0.12 144.33);
+
+  /* Muted — used for alternating section backgrounds */
   --muted: oklch(0.94 0.01 72.65);
   --muted-foreground: oklch(0.50 0.01 156.76);
+
+  /* Accent — for highlights and active states */
   --accent: oklch(0.90 0.05 146.01);
   --accent-foreground: oklch(0.43 0.12 144.33);
+
+  /* Semantic colors */
   --destructive: oklch(0.54 0.19 26.90);
   --border: oklch(0.88 0 0);
   --input: oklch(0.88 0.02 77.29);
   --ring: oklch(0.52 0.13 144.33);
 
+  /* Font families — loaded via Google Fonts in Layout.astro */
   --font-sans: "Outfit", system-ui, sans-serif;
   --font-serif: "Merriweather", serif;
   --font-mono: "Geist Mono", monospace;
   --font-kaushan-script: "Kaushan Script", cursive;
 
+  /* Border radius base — derived sizes calculated in @theme inline */
   --radius: 0.5rem;
 
+  /* ── Section layout custom properties ── */
+  /* Vertical padding per section. Responsive: 2rem → 4rem → 6rem. */
   --section-py: 2rem;
+  /* Gap between sections (currently 0 — sections are flush). */
   --section-gap: 0;
+  /* Accent line color — primary at 20% opacity via color-mix. */
   --accent-line: 1px solid color-mix(in oklch, var(--primary) 20%, transparent);
 }
 
+/* Responsive section padding — scales up at sm and lg breakpoints */
 @media (min-width: 640px) {
   :root { --section-py: 4rem; }
 }
@@ -42,6 +86,12 @@
   :root { --section-py: 6rem; }
 }
 
+/* ──────────────────────────────────────────────────────────────
+ * 2. Color tokens — Dark theme (.dark class on <html>)
+ *
+ * Same structure as :root but inverted lightness values.
+ * Hue stays consistent for brand continuity.
+ * ────────────────────────────────────────────────────────────── */
 .dark {
   --background: oklch(0.31 0.03 149.96);
   --foreground: oklch(0.84 0.01 145.30);
@@ -63,6 +113,13 @@
   --ring: oklch(0.67 0.16 144.06);
 }
 
+/* ──────────────────────────────────────────────────────────────
+ * 3. Tailwind theme mapping
+ *
+ * Maps CSS custom properties to Tailwind's --color-* namespace so
+ * utility classes like bg-primary, text-muted-foreground work.
+ * @theme inline = values are referenced, not copied.
+ * ────────────────────────────────────────────────────────────── */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -83,48 +140,82 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
+  /* Font families available as Tailwind font-sans, font-mono, etc. */
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
   --font-serif: var(--font-serif);
 
+  /* Derived radius scale: sm < md < lg < xl */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+/* ──────────────────────────────────────────────────────────────
+ * 4. Base element styles
+ *
+ * Applied to all elements via @layer base.
+ * These have lower priority than utility classes.
+ * ────────────────────────────────────────────────────────────── */
 @layer base {
+  /* All elements: default border color + ring outline color */
   * {
     @apply border-border outline-ring/50;
   }
 
+  /* Body: background + text color from theme tokens */
   body {
     @apply bg-background text-foreground;
   }
 
+  /* All buttons: pointer cursor (Tailwind v4 doesn't set this by default) */
   button {
     @apply cursor-pointer;
   }
 
+  /* Script font helper — used for decorative headings if needed */
   .font-script {
     font-family: var(--font-kaushan-script);
   }
 }
 
-/* ─── Section layout: spacing, alternating bg, accent lines ──── */
-/* nth-of-type counts only <section> elements, ignoring <astro-island>.
-   Background on ::before (skewed), accent line on ::after (skewed).
-   Skew direction alternates: odd = ascending, even = descending.
-   overflow:clip on x-axis only — lets skewed bg extend vertically
-   while preventing horizontal scroll. */
+/* ──────────────────────────────────────────────────────────────
+ * 5. Section layout system
+ *
+ * Controls the visual rhythm of the page: alternating backgrounds
+ * with diagonal (skewed) color edges, accent lines at boundaries,
+ * and responsive vertical spacing.
+ *
+ * KEY INSIGHT: nth-of-type counts only <section> elements, ignoring
+ * <astro-island> wrappers that Svelte client:load/visible injects.
+ * This is why we use nth-of-type, not nth-child.
+ *
+ * Architecture:
+ * - ::before = skewed background band (z-index: -2, behind content)
+ * - ::after  = skewed accent line at boundary (z-index: -1, above bg)
+ * - Content  = z-index: 1 (above both pseudo-elements)
+ *
+ * Skew alternation:
+ * - Odd sections:  skewY(-3deg) = ascending edge (left low, right high)
+ * - Even sections: skewY(3deg)  = descending edge (left high, right low)
+ *
+ * The accent line (::after) on section N matches the skew of section N+1,
+ * because the line sits on the boundary BETWEEN them.
+ * ────────────────────────────────────────────────────────────── */
 
+/* Base section: relative positioning for pseudo-elements, responsive padding.
+   overflow-x: clip prevents horizontal scroll from skewed backgrounds
+   while allowing vertical overflow for the diagonal edge. */
 main > section {
   position: relative;
   padding-block: var(--section-py);
   overflow-x: clip;
 }
 
-/* Content sits above the skewed background */
+/* Content (direct children + astro-island wrappers) sits above background.
+   display: contents on astro-island makes it "invisible" to layout —
+   its children flow as if the wrapper didn't exist. */
 main > section > * {
   position: relative;
   z-index: 1;
@@ -136,10 +227,10 @@ main > section > astro-island {
   display: contents;
 }
 
-/* ── Skewed background band ── */
-/* The visible color edge between sections is the TOP of each ::before.
-   Skew direction alternates so the edge goes up-then-down.
-   transform-origin: bottom anchors the skew so the top edge moves. */
+/* ── Skewed background band (::before) ──
+   Fills the entire section with the section's color, then skews it.
+   The TOP edge of this band is the visible color boundary.
+   transform-origin: bottom left anchors the skew so the top moves. */
 main > section::before {
   content: "";
   position: absolute;
@@ -147,26 +238,28 @@ main > section::before {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: -2;
-  pointer-events: none;
+  z-index: -2;          /* behind everything */
+  pointer-events: none; /* clicks pass through to content */
   transform-origin: bottom left;
 }
 
-/* Odd sections: ascending edge (top-left lower, top-right higher) */
+/* Odd sections (1, 3, 5, 7): light background, ascending edge */
 main > section:nth-of-type(odd)::before {
   background: var(--background);
   transform: skewY(-3deg);
 }
 
-/* Even sections: descending edge (top-left higher, top-right lower) */
+/* Even sections (2, 4, 6): muted background, descending edge */
 main > section:nth-of-type(even)::before {
   background: var(--muted);
   transform: skewY(3deg);
 }
 
-/* ── Accent line at the boundary ── */
-/* Line must match the NEXT section's ::before top edge.
-   ::before uses transform-origin: bottom left, so ::after must too. */
+/* ── Accent line at section boundary (::after) ──
+   A thin diagonal line at the bottom of each section.
+   Must match the NEXT section's ::before top edge direction,
+   because the line sits on the boundary between section N and N+1.
+   Uses same transform-origin as ::before for alignment. */
 main > section::after {
   content: "";
   position: absolute;
@@ -174,18 +267,18 @@ main > section::after {
   left: 0;
   right: 0;
   height: 0;
-  z-index: -1;
+  z-index: -1;          /* above background, below content */
   pointer-events: none;
   border-bottom: var(--accent-line);
   transform-origin: bottom left;
 }
 
-/* Odd→Even boundary: next is even (descending 3deg) */
+/* Odd→Even boundary: next section is even (descending 3deg) */
 main > section:nth-of-type(odd)::after {
   transform: skewY(3deg);
 }
 
-/* Even→Odd boundary: next is odd (ascending -3deg) */
+/* Even→Odd boundary: next section is odd (ascending -3deg) */
 main > section:nth-of-type(even)::after {
   transform: skewY(-3deg);
 }
@@ -195,9 +288,11 @@ main > section:last-of-type::after {
   display: none;
 }
 
-/* ── Catalog card backgrounds: opposite of section ── */
-/* Cards in odd sections (background) get muted bg.
-   Cards in even sections (muted) get background bg. */
+/* ── Catalog card backgrounds: inverse of section ──
+   Cards stand out by using the opposite color:
+   - Cards in odd sections (background) → muted bg
+   - Cards in even sections (muted) → background bg
+   Pure CSS, no JS needed. */
 main > section:nth-of-type(odd) article {
   background: var(--muted);
 }
@@ -206,13 +301,25 @@ main > section:nth-of-type(even) article {
   background: var(--background);
 }
 
-/* ─── Theme toggle icon animation ────────────────────────────── */
-/* Single keyframe drives both icons — no mismatched transitions */
+/* ──────────────────────────────────────────────────────────────
+ * 6. Theme toggle icon animation
+ *
+ * A single @keyframes drives both sun and moon icons so they
+ * animate at the same speed with the same easing. The .theme-icon
+ * class plays the animation forward; .theme-icon-hidden plays it
+ * in reverse — creating a smooth crossfade + scale + rotate.
+ *
+ * Used in Header.svelte:
+ *   <span class="theme-icon {theme === 'light' ? 'theme-icon-hidden' : ''}">
+ *     <Icon icon="lucide:sun" />
+ *   </span>
+ * ────────────────────────────────────────────────────────────── */
 @keyframes theme-icon-spin {
   0%   { opacity: 0; transform: scale(0) rotate(-90deg); }
   100% { opacity: 1; transform: scale(1) rotate(0deg); }
 }
 
+/* Visible icon: animate in (scale + rotate + fade) */
 .theme-icon {
   position: absolute;
   inset: 0;
@@ -222,6 +329,7 @@ main > section:nth-of-type(even) article {
   animation: theme-icon-spin 0.4s ease forwards;
 }
 
+/* Hidden icon: animate out (reverse of above) */
 .theme-icon-hidden {
   animation: theme-icon-spin 0.4s ease reverse forwards;
 }

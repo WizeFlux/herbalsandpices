@@ -1,7 +1,21 @@
 ---
 /**
  * Contact section — call-to-action + contact info cards.
- * Section spacing/alternation handled by global.css.
+ *
+ * Layout:
+ * 1. Heading + persuasive description with bold call-to-action
+ * 2. Grid of 4 contact info cards (clock, phone, email, telegram)
+ *
+ * Each card has:
+ * - An icon (Iconify name stored in contact.ts, rendered via astro-icon)
+ * - A title (e.g. "Телефон")
+ * - A description value (supports \n for multi-line via whitespace-pre-line)
+ *
+ * Cards have a border + background that contrasts with the section bg.
+ * Hover effect: border color changes to primary.
+ *
+ * Section spacing, alternating background, and accent line are
+ * handled by global.css (nth-of-type rules).
  */
 import { contactInfo } from "../data";
 import { Icon } from "astro-icon/components";
@@ -11,6 +25,8 @@ import { Icon } from "astro-icon/components";
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="grid items-center gap-12">
       <div>
+        <!-- CTA heading + description.
+             Bold text highlights the free test delivery offer. -->
         <h3 class="mb-2 text-3xl">Давайте развивать вкус Шерегеша вместе!</h3>
         <p class="mb-10 text-lg text-muted-foreground">
           Наша ферма находится в 5 минутах от вас. Мы всегда рады гостям и готовы познакомить вас с
@@ -18,14 +34,17 @@ import { Icon } from "astro-icon/components";
           <strong>бесплатно доставим тестовый набор</strong> прямо на вашу кухню.
         </p>
 
+        <!-- Contact info card grid: 1 column mobile, 4 columns sm+ -->
         <div class="grid gap-6 sm:grid-cols-4">
           {contactInfo.map((info) => (
             <div
               class="flex flex-col items-center gap-4 border bg-background p-6 text-center transition-colors duration-300 hover:border-primary"
             >
+              <!-- Icon in a circular bordered container -->
               <div class="flex size-9 items-center justify-center border rounded-full">
                 <Icon name={info.icon} width={20} height={20} />
               </div>
+              <!-- Title + value -->
               <div class="space-y-3">
                 <h4 class="text-lg font-semibold">{info.title}</h4>
                 <div class="text-base font-medium text-muted-foreground whitespace-pre-line">
