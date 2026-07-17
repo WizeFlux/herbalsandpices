@@ -204,24 +204,15 @@
  * because the line sits on the boundary BETWEEN them.
  * ────────────────────────────────────────────────────────────── */
 
-/* Base section: relative positioning for pseudo-elements, responsive padding.
-   overflow-x: clip prevents horizontal scroll from skewed backgrounds
-   while allowing vertical overflow for the diagonal edge.
-   Extra padding-block-start compensates for the skew pulling the
-   background up — without it, content sits too close to the top edge
-   on sections where the bg edge is higher on the left side. */
+/* ── Responsive section padding ──
+   Base padding scales at sm and lg breakpoints.
+   The +3rem compensation applies to ALL sections because both
+   skew directions (-3deg and +3deg) eat into visible padding
+   equally, just mirrored. One rule, no nth-of-type overrides. */
 main > section {
   position: relative;
-  padding-block: var(--section-py);
+  padding-block: calc(var(--section-py) + 3rem);
   overflow-x: clip;
-}
-
-/* Even sections (descending skew) need extra padding on both sides:
-   The bg band's top-left corner rises and bottom-right corner drops
-   due to skewY(3deg), making content appear cramped top and bottom. */
-main > section:nth-of-type(even) {
-  padding-block-start: calc(var(--section-py) + 2.5rem);
-  padding-block-end: calc(var(--section-py) + 2.5rem);
 }
 
 /* Content (direct children + astro-island wrappers) sits above background.
