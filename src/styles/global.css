@@ -301,13 +301,12 @@ main > section:last-of-type::before {
 }
 
 /* ── Accent line at the top of each section ──
-   Uses a linear-gradient diagonal line that EXACTLY matches the
-   clip-path edge angle. The ::after is a band (height = skew-offset)
-   at the top of the section. The gradient draws a 1px diagonal line
-   corner-to-corner, matching the clip-path top edge precisely.
+   Uses the SAME clip-path coordinates as ::before to create a
+   thin (2px) diagonal strip. Guaranteed to match the color
+   boundary exactly — no gradient angle guessing.
 
-   - Odd:  line from bottom-left to top-right (to top right)
-   - Even: line from top-left to bottom-right (to bottom right) */
+   The strip is a polygon that traces the ::before top edge
+   and extends 2px below it. */
 :root {
   --accent-line-color: color-mix(in oklch, var(--primary) 20%, transparent);
 }
@@ -318,32 +317,29 @@ main > section::after {
   top: 0;
   left: 0;
   right: 0;
-  height: var(--skew-offset);
+  height: calc(var(--skew-offset) + 2px);
   z-index: -1;
   pointer-events: none;
+  background: var(--accent-line-color);
 }
 
-/* Odd: clip-path top edge goes from (0, offset) to (100%, 0) = ascending.
-   Gradient: bottom-left to top-right. */
+/* Odd: same top edge as ::before — 0,offset → 100%,0 (ascending) */
 main > section:nth-of-type(odd)::after {
-  background: linear-gradient(
-    to top right,
-    transparent calc(50% - 0.5px),
-    var(--accent-line-color) calc(50% - 0.5px),
-    var(--accent-line-color) calc(50% + 0.5px),
-    transparent calc(50% + 0.5px)
+  clip-path: polygon(
+    0 var(--skew-offset),
+    100% 0,
+    100% 2px,
+    0 calc(var(--skew-offset) + 2px)
   );
 }
 
-/* Even: clip-path top edge goes from (0, 0) to (100%, offset) = descending.
-   Gradient: top-left to bottom-right. */
+/* Even: same top edge as ::before — 0,0 → 100%,offset (descending) */
 main > section:nth-of-type(even)::after {
-  background: linear-gradient(
-    to bottom right,
-    transparent calc(50% - 0.5px),
-    var(--accent-line-color) calc(50% - 0.5px),
-    var(--accent-line-color) calc(50% + 0.5px),
-    transparent calc(50% + 0.5px)
+  clip-path: polygon(
+    0 0,
+    100% var(--skew-offset),
+    100% calc(var(--skew-offset) + 2px),
+    0 2px
   );
 }
 
