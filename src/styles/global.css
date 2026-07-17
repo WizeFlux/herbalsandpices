@@ -261,15 +261,16 @@ main > section:nth-of-type(even)::before {
    A thin diagonal line at the bottom of each section.
    Must match the NEXT section's ::before top edge direction,
    because the line sits on the boundary between section N and N+1.
-   Uses same transform-origin as ::before for alignment. */
+   ::before extends to top: -2rem, so the visible color edge is
+   2rem above the section's bottom. ::after must match: bottom: 2rem. */
 main > section::after {
   content: "";
   position: absolute;
-  bottom: 0;
+  bottom: 2rem;
   left: 0;
   right: 0;
   height: 0;
-  z-index: -1;          /* above background, below content */
+  z-index: -1;
   pointer-events: none;
   border-bottom: var(--accent-line);
   transform-origin: bottom left;
