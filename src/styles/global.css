@@ -205,28 +205,12 @@
  * ────────────────────────────────────────────────────────────── */
 
 /* ── Responsive section padding ──
-   Skewed backgrounds eat into visible padding differently per parity.
-   The compensation is split: more top padding (where the rising
-   bg edge eats space) and less bottom padding (where the dropping
-   edge gives extra room). Values tuned so odd and even sections
-   look visually equal. */
+   Single value for all sections. The skew is mirrored so both
+   parities need identical compensation. Tuned for visual balance. */
 main > section {
   position: relative;
+  padding-block: calc(var(--section-py) + 4rem);
   overflow-x: clip;
-}
-
-/* Odd sections (skewY(-3deg)): edge rises on the right.
-   Top needs +5rem, bottom needs +3rem. */
-main > section:nth-of-type(odd) {
-  padding-block-start: calc(var(--section-py) + 5rem);
-  padding-block-end: calc(var(--section-py) + 3rem);
-}
-
-/* Even sections (skewY(3deg)): edge rises on the left.
-   Top needs +5rem, bottom needs +3rem (mirrored = same). */
-main > section:nth-of-type(even) {
-  padding-block-start: calc(var(--section-py) + 5rem);
-  padding-block-end: calc(var(--section-py) + 3rem);
 }
 
 /* Content (direct children + astro-island wrappers) sits above background.
