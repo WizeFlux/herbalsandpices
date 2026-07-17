@@ -41,7 +41,7 @@
 
 <section
   id="testimonials"
-  class="relative py-14 before:absolute before:inset-0 before:-z-10 before:-skew-y-3 before:border-b before:border-primary/20 sm:py-28 lg:py-36"
+  class="relative"
 >
   <div class="mx-auto flex max-w-7xl gap-12 px-4 max-sm:flex-col sm:items-center sm:gap-16 sm:px-6 lg:gap-24 lg:px-8">
     <!-- Left content -->

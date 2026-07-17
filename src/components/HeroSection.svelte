@@ -40,7 +40,7 @@
 
 <section
   id="home"
-  class="relative flex-1 py-12 before:absolute before:inset-0 before:-z-10 before:-skew-y-3 before:border-b before:border-primary/20 sm:py-16 lg:py-24"
+  class="relative flex-1"
 >
   <div class="mx-auto flex h-full max-w-7xl flex-col gap-16 px-4 sm:px-6 lg:px-8">
     <!-- Hero header: text + main carousel -->
@@ -113,12 +113,12 @@
           {#each heroSlides as slide, index (slide.id)}
             <button
               onclick={() => handleThumbClick(index)}
-              class="relative flex h-33 basis-1/2 items-center justify-center sm:basis-1/3 md:basis-1/4 lg:basis-1/3 xl:basis-1/4"
+              class="relative flex h-33 basis-1/2 items-center justify-center overflow-hidden px-1 sm:basis-1/3 md:basis-1/4 lg:basis-1/3 xl:basis-1/4"
             >
               <div
-                class="absolute bottom-0 {current === index ? "text-primary" : "text-border"}"
+                class="absolute bottom-0 w-full max-w-[160px] {current === index ? "text-primary" : "text-border"}"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="161" height="92" viewBox="0 0 161 92" fill="none">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 161 92" fill="none" class="w-full h-auto">
                   <path
                     d="M0.682517 80.6118L0.501193 39.6946C0.480127 34.9409 3.80852 30.8294 8.46241 29.8603L148.426 0.713985C154.636 -0.579105 160.465 4.16121 160.465 10.504V80.7397C160.465 86.2674 155.98 90.7465 150.453 90.7397L10.6701 90.5674C5.16936 90.5607 0.706893 86.1125 0.682517 80.6118Z"
                     stroke="currentColor"

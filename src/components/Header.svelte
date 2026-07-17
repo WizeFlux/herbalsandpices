@@ -121,9 +121,10 @@
       <!-- Theme toggle -->
       <button
         onclick={() => (theme = theme === "light" ? "dark" : "light")}
-        class="relative rounded-full border p-2 transition-colors hover:bg-muted"
+        class="relative flex size-9 items-center justify-center rounded-full border transition-colors hover:bg-muted"
         aria-label="Toggle theme"
       >
+        <!-- Moon icon (visible in light mode) -->
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -134,10 +135,11 @@
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"
+          class="absolute scale-100 rotate-0 transition-all duration-300 dark:scale-0 dark:-rotate-90"
         >
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
         </svg>
+        <!-- Sun icon (visible in dark mode) -->
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -148,7 +150,7 @@
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="absolute scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"
+          class="absolute scale-0 rotate-90 transition-all duration-300 dark:scale-100 dark:rotate-0"
         >
           <circle cx="12" cy="12" r="5" />
           <line x1="12" y1="1" x2="12" y2="3" />

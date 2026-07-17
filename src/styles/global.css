@@ -99,3 +99,55 @@
     font-family: var(--font-kaushan-script);
   }
 }
+
+/* ─── Alternating section backgrounds ────────────────────────── */
+/* Even sections get muted bg + accent line at top.
+   The accent line is a pseudo-element skew that creates the
+   visual separator between light/dark bands. */
+main > section {
+  position: relative;
+  padding-block: 2rem;
+}
+@media (min-width: 640px) {
+  main > section { padding-block: 4rem; }
+}
+@media (min-width: 1024px) {
+  main > section { padding-block: 6rem; }
+}
+
+/* Hero gets extra padding */
+main > section:first-child {
+  padding-block: 3rem;
+}
+@media (min-width: 640px) {
+  main > section:first-child { padding-block: 4rem; }
+}
+@media (min-width: 1024px) {
+  main > section:first-child { padding-block: 6rem; }
+}
+
+/* Accent line between sections */
+main > section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -10;
+  transform: skewY(-3deg);
+  pointer-events: none;
+}
+
+/* Even children: muted background + bottom border accent */
+main > section:nth-child(even)::before {
+  background: var(--muted);
+  border-bottom: 1px solid color-mix(in oklch, var(--primary) 20%, transparent);
+}
+
+/* Odd children: transparent background + top border accent */
+main > section:nth-child(odd)::before {
+  border-top: 1px solid color-mix(in oklch, var(--primary) 20%, transparent);
+}
+
+/* Dark mode adjustments for the accent lines */
+.dark main > section:nth-child(even)::before {
+  background: var(--muted);
+}
