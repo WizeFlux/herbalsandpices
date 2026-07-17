@@ -5,13 +5,6 @@
  */
 import { contactInfo } from "../data";
 import { Icon } from "astro-icon/components";
-
-const iconMap: Record<string, string> = {
-  clock: "lucide:clock",
-  phone: "lucide:phone",
-  mail: "lucide:mail",
-  telegram: "lucide:send",
-};
 ---
 
 <section id="contact-us">
@@ -31,7 +24,7 @@ const iconMap: Record<string, string> = {
               class="flex flex-col items-center gap-4 border bg-background p-6 text-center transition-colors duration-300 hover:border-primary"
             >
               <div class="flex size-9 items-center justify-center border rounded-full">
-                <Icon name={iconMap[info.icon]} width={20} height={20} />
+                <Icon name={info.icon} width={20} height={20} />
               </div>
               <div class="space-y-3">
                 <h4 class="text-lg font-semibold">{info.title}</h4>

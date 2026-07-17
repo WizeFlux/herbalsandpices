@@ -42,7 +42,7 @@ export interface Technology {
 }
 
 export interface QualityStat {
-  icon: "sparkles" | "chef-hat" | "users" | "trophy";
+  icon: string;
   value: string;
   description: [string, string];
 }
@@ -56,6 +56,6 @@ export interface Testimonial {
 
 export interface ContactCard {
   title: string;
-  icon: "clock" | "phone" | "mail" | "telegram";
+  icon: string;
   description: string;
 }

@@ -5,13 +5,6 @@
  */
 import { qualityStats, asset } from "../data";
 import { Icon } from "astro-icon/components";
-
-const iconMap: Record<string, string> = {
-  sparkles: "lucide:sparkles",
-  "chef-hat": "lucide:chef-hat",
-  users: "lucide:users",
-  trophy: "lucide:trophy",
-};
 ---
 
 <section id="quality">
@@ -40,7 +33,7 @@ const iconMap: Record<string, string> = {
         {qualityStats.map((stat) => (
           <div class="flex flex-col items-center justify-center gap-2.5 text-center">
             <div class="flex size-7 items-center justify-center">
-              <Icon name={iconMap[stat.icon]} width={28} height={28} />
+              <Icon name={stat.icon} width={28} height={28} />
             </div>
             <span class="text-2xl font-semibold">{stat.value}</span>
             <p class="text-lg text-muted-foreground">
