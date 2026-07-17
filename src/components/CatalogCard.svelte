@@ -4,7 +4,7 @@
    * Left/right arrow buttons navigate through images.
    * Pure state: current index → which image shows.
    */
-  import { asset, type CatalogItem } from "../data/site";
+  import { asset, type CatalogItem } from "../data";
   import Icon from "@iconify/svelte";
 
   interface Props {

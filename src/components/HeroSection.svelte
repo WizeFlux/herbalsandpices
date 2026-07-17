@@ -6,7 +6,7 @@
    * - Comments carousel (syncs with main)
    */
   import { onMount } from "svelte";
-  import { heroSlides, asset } from "../data/site";
+  import { heroSlides, asset } from "../data";
   import PlateFrame from "./PlateFrame.svelte";
 
   let current = $state(0);

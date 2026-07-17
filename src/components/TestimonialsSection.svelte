@@ -3,7 +3,7 @@
    * Testimonials carousel — prev/next navigation through customer reviews.
    */
   import { onMount } from "svelte";
-  import { testimonials, asset } from "../data/site";
+  import { testimonials, asset } from "../data";
   import Icon from "@iconify/svelte";
 
   let scrollEl: HTMLElement;

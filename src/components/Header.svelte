@@ -4,7 +4,7 @@
    * smooth scroll nav, mobile menu, and theme toggle.
    */
   import { onMount } from "svelte";
-  import { navigation } from "../data/site";
+  import { navigation } from "../data";
   import Icon from "@iconify/svelte";
   import LogoMark from "./LogoMark.svelte";
 
