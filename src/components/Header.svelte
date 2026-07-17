@@ -63,13 +63,13 @@
 </script>
 
 <header
-  class="fixed inset-x-0 top-0 z-50 h-16 border-b transition-all duration-300 {isScrolled ? 'bg-background shadow-md' : ''}"
+  class="fixed inset-x-0 top-0 z-50 h-16 border-b border-primary/20 bg-background transition-all duration-300"
 >
   <div class="mx-auto flex h-full max-w-7xl items-center justify-between gap-6 px-4 sm:px-6 lg:px-8">
     <!-- Logo -->
     <a href="/#home" class="flex items-center gap-3">
       <LogoMark size={32} />
-      <span class="text-xl font-semibold text-muted-foreground">Травы – Приправы</span>
+      <span class="text-xl font-semibold text-primary">Травы – Приправы</span>
     </a>
 
     <!-- Desktop nav -->

@@ -165,7 +165,9 @@ main > section:nth-of-type(even)::before {
 }
 
 /* ── Accent line at the boundary ── */
-/* Matches the skew direction so it sits exactly on the color edge. */
+/* Line must match the NEXT section's skew, so the diagonal edge
+   between this section's bg and the next section's bg aligns with
+   the line. Section N boundary = transition to N+1. */
 main > section::after {
   content: "";
   position: absolute;
@@ -178,20 +180,22 @@ main > section::after {
   border-bottom: var(--accent-line);
 }
 
-/* Odd sections: ascending line */
+/* Odd→Even boundary: next is even (descending 3deg) */
 main > section:nth-of-type(odd)::after {
-  transform: skewY(-3deg);
-  transform-origin: top left;
-}
-
-/* Even sections: descending line */
-main > section:nth-of-type(even)::after {
   transform: skewY(3deg);
   transform-origin: top right;
 }
 
-/* Last section: show accent line before footer */
-/* (kept visible — footer gets matching border-top) */
+/* Even→Odd boundary: next is odd (ascending -3deg) */
+main > section:nth-of-type(even)::after {
+  transform: skewY(-3deg);
+  transform-origin: top left;
+}
+
+/* Last section: no accent line (footer has its own border-top) */
+main > section:last-of-type::after {
+  display: none;
+}
 
 /* ─── Theme toggle icon animation ────────────────────────────── */
 /* Single keyframe drives both icons — no mismatched transitions */
