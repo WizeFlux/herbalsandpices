@@ -29,4 +29,25 @@ export const testimonials: Testimonial[] = [
     content:
       "Fresh ingredients, balanced flavors, and excellent presentation define this bistro. The staff is polite and always smiling. Perfect for a pleasant dining experience.",
   },
+  {
+    name: "Elena Volkova",
+    avatar: "/images/hero-section/avatar-01.webp",
+    rating: 5,
+    content:
+      "Лучшая зелень, что я пробовала в Шерегеше! Базилик пахнет так, будто сорвала его с грядки пять минут назад. Доставку привезли прямо на кухню ресторана — всё аккуратно, в многоразовых контейнерах.",
+  },
+  {
+    name: "Dmitri Sokolov",
+    avatar: "/images/hero-section/avatar-02.webp",
+    rating: 4.5,
+    content:
+      "Заказываем микрозелень каждую неделю. Качество стабильно высокое, срок хранения реально 10-14 дней. Особенно понравился редбазил и горчица — аромат концентрированный, как надо.",
+  },
+  {
+    name: "Olga Kremen",
+    avatar: "/images/hero-section/avatar-03.webp",
+    rating: 5,
+    content:
+      "Тестовый набор получил бесплатно, как и обещали. Через неделю стали постоянным клиентом. Мята и кинза — просто находка для наших десертов и соусов.",
+  },
 ];
