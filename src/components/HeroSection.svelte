@@ -11,6 +11,8 @@
 
   let current = $state(0);
   let timer: ReturnType<typeof setInterval> | null = null;
+  let thumbStrip: HTMLElement;
+  let thumbButtons: HTMLElement[] = [];
 
   const goTo = (i: number) => {
     current = (i + heroSlides.length) % heroSlides.length;
@@ -21,6 +23,17 @@
   onMount(() => {
     timer = setInterval(next, 3000);
     return () => { if (timer) clearInterval(timer); };
+  });
+
+  // Auto-scroll thumbnail strip to keep active item visible
+  $effect(() => {
+    const btn = thumbButtons[current];
+    if (btn && thumbStrip) {
+      const stripRect = thumbStrip.getBoundingClientRect();
+      const btnRect = btn.getBoundingClientRect();
+      const offset = btnRect.left - stripRect.left - stripRect.width / 2 + btnRect.width / 2;
+      thumbStrip.scrollBy({ left: offset, behavior: "smooth" });
+    }
   });
 
   function select(index: number) {
@@ -81,11 +94,13 @@
         <div class="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-background to-transparent"></div>
 
         <div
+          bind:this={thumbStrip}
           class="flex gap-4 overflow-x-auto scroll-smooth pb-2"
           style="scrollbar-width: none; -webkit-overflow-scrolling: touch;"
         >
           {#each heroSlides as slide, index (slide.id)}
             <button
+              bind:this={thumbButtons[index]}
               onclick={() => select(index)}
               class="relative flex h-32 w-28 shrink-0 items-end justify-center pb-1"
             >

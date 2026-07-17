@@ -112,58 +112,81 @@
 }
 
 /* ─── Section layout: spacing, alternating bg, accent lines ──── */
-/* nth-of-type counts only <section> elements, ignoring <astro-island>
-   wrappers from Svelte client:load/visible.
-
-   The background lives on the skewed ::before pseudo-element, NOT on
-   the section itself. This makes the color transition diagonal.
-   The accent line (border-bottom on ::before) appears at every junction. */
+/* nth-of-type counts only <section> elements, ignoring <astro-island>.
+   Background on ::before (skewed), accent line on ::after (skewed).
+   Skew direction alternates: odd = ascending, even = descending. */
 
 main > section {
   position: relative;
   padding-block: var(--section-py);
+  overflow: hidden;
 }
 
-/* Content sits above the skewed background band */
+/* Content sits above the skewed background */
 main > section > * {
   position: relative;
   z-index: 1;
 }
 
-/* Svelte components render inside <astro-island> — also need z-index */
 main > section > astro-island {
   position: relative;
   z-index: 1;
   display: contents;
 }
 
-/* Skewed background band — extends beyond section to cover skew gaps */
+/* ── Skewed background band ── */
 main > section::before {
   content: "";
   position: absolute;
-  top: -2rem;
-  bottom: 0;
+  top: -3rem;
+  bottom: -3rem;
   left: 0;
   right: 0;
-  z-index: -1;
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* Odd sections: ascending skew (-3deg) */
+main > section:nth-of-type(odd)::before {
+  background: var(--background);
   transform: skewY(-3deg);
+}
+
+/* Even sections: descending skew (3deg) */
+main > section:nth-of-type(even)::before {
+  background: var(--muted);
+  transform: skewY(3deg);
+}
+
+/* ── Accent line at the boundary ── */
+/* ::after is a thin skewed line at the bottom edge of each section.
+   It sits above the background (z-index -1) and matches the skew
+   direction so it follows the diagonal color edge. */
+main > section::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: -5%;
+  right: -5%;
+  height: 0;
+  z-index: -1;
   pointer-events: none;
   border-bottom: var(--accent-line);
 }
 
-/* Odd sections: normal background */
-main > section:nth-of-type(odd)::before {
-  background: var(--background);
+/* Odd sections: ascending line */
+main > section:nth-of-type(odd)::after {
+  transform: skewY(-3deg) translateY(50%);
 }
 
-/* Even sections: muted background */
-main > section:nth-of-type(even)::before {
-  background: var(--muted);
+/* Even sections: descending line */
+main > section:nth-of-type(even)::after {
+  transform: skewY(3deg) translateY(50%);
 }
 
-/* Last section: no accent line at bottom */
-main > section:last-of-type::before {
-  border-bottom: none;
+/* Last section: no accent line */
+main > section:last-of-type::after {
+  display: none;
 }
 
 /* ─── Theme toggle icon animation ────────────────────────────── */
