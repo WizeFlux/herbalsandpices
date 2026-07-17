@@ -164,9 +164,14 @@
     @apply border-border outline-ring/50;
   }
 
-  /* Body: background + text color from theme tokens */
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Main fills triangular gaps left by section clip-path.
+     Background alternates to match the section that "owns" each gap. */
+  main {
+    background: var(--muted);
   }
 
   /* All buttons: pointer cursor (Tailwind v4 doesn't set this by default) */
