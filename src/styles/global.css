@@ -209,7 +209,7 @@
    parities need identical compensation. Tuned for visual balance. */
 main > section {
   position: relative;
-  padding-block: calc(var(--section-py) + 4rem);
+  padding-block: calc(var(--section-py) + 2rem);
   overflow-x: clip;
 }
 
@@ -230,16 +230,18 @@ main > section > astro-island {
 /* ── Skewed background band (::before) ──
    Fills the entire section with the section's color, then skews it.
    The TOP edge of this band is the visible color boundary.
-   transform-origin: bottom left anchors the skew so the top moves. */
+   transform-origin: bottom left anchors the skew so the top moves.
+   Extended beyond section bounds (top/bottom: -2rem) so the skew
+   doesn't leave gaps where the previous/next section shows through. */
 main > section::before {
   content: "";
   position: absolute;
-  top: 0;
-  bottom: 0;
+  top: -2rem;
+  bottom: -2rem;
   left: 0;
   right: 0;
-  z-index: -2;          /* behind everything */
-  pointer-events: none; /* clicks pass through to content */
+  z-index: -2;
+  pointer-events: none;
   transform-origin: bottom left;
 }
 
