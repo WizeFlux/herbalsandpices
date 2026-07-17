@@ -210,12 +210,22 @@
  * the diagonal direction. It sits on the color boundary.
  * ────────────────────────────────────────────────────────────── */
 
-/* Base section: relative positioning, uniform padding, clip overflow.
-   Extra padding compensates for skewY visual compression. */
+/* Base section: relative positioning, clip overflow.
+   Odd sections: skewY(-2deg) pushes boundary up into previous section,
+   so their own padding is intact. Base padding.
+   Even sections: skewY(2deg) pushes boundary down into own area,
+   eating top padding. Extra padding to compensate. */
 main > section {
   position: relative;
   padding-block: calc(var(--section-py) + 2rem);
   overflow-x: clip;
+}
+
+/* Even (dark) sections: extra padding because skewY(2deg) eats
+   into both top (boundary drops on right) and bottom (next odd
+   section's skewY(-2deg) pushes up into this section). */
+main > section:nth-of-type(even) {
+  padding-block: calc(var(--section-py) + 4rem);
 }
 
 /* Content sits above the background */
