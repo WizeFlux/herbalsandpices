@@ -256,7 +256,7 @@ main > section::before {
   pointer-events: none;
 }
 
-/* Odd: ascending edges (left low, right high) */
+/* Odd: ascending edge (left low, right high) */
 main > section:nth-of-type(odd)::before {
   background: var(--background);
   clip-path: polygon(
@@ -267,14 +267,14 @@ main > section:nth-of-type(odd)::before {
   );
 }
 
-/* Even: ascending edges (same direction — alternating was confusing) */
+/* Even: descending edge (left high, right low) */
 main > section:nth-of-type(even)::before {
   background: var(--muted);
   clip-path: polygon(
-    0 var(--skew-offset),
-    100% 0,
-    100% calc(100% - var(--skew-offset)),
-    0 100%
+    0 0,
+    100% var(--skew-offset),
+    100% 100%,
+    0 calc(100% - var(--skew-offset))
   );
 }
 
@@ -330,13 +330,13 @@ main > section:nth-of-type(odd)::after {
   );
 }
 
-/* Even: ascending — same as odd (all edges same direction) */
+/* Even: descending — matches ::before top edge (0,0 → 100%,offset) */
 main > section:nth-of-type(even)::after {
   clip-path: polygon(
-    0 var(--skew-offset),
-    100% 0,
-    100% 1px,
-    0 calc(var(--skew-offset) + 1px)
+    0 0,
+    100% var(--skew-offset),
+    100% calc(var(--skew-offset) + 1px),
+    0 1px
   );
 }
 
