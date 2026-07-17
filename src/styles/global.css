@@ -267,14 +267,14 @@ main > section:nth-of-type(odd)::before {
   );
 }
 
-/* Even: descending edges (left high, right low) */
+/* Even: ascending edges (same direction — alternating was confusing) */
 main > section:nth-of-type(even)::before {
   background: var(--muted);
   clip-path: polygon(
-    0 0,
-    100% var(--skew-offset),
-    100% 100%,
-    0 calc(100% - var(--skew-offset))
+    0 var(--skew-offset),
+    100% 0,
+    100% calc(100% - var(--skew-offset)),
+    0 100%
   );
 }
 
@@ -302,11 +302,8 @@ main > section:last-of-type::before {
 
 /* ── Accent line at the top of each section ──
    Uses the SAME clip-path coordinates as ::before to create a
-   thin (2px) diagonal strip. Guaranteed to match the color
-   boundary exactly — no gradient angle guessing.
-
-   The strip is a polygon that traces the ::before top edge
-   and extends 2px below it. */
+   thin (1px) diagonal strip. Guaranteed to match the color
+   boundary exactly — same polygon math for both. */
 :root {
   --accent-line-color: color-mix(in oklch, var(--primary) 20%, transparent);
 }
@@ -317,7 +314,7 @@ main > section::after {
   top: 0;
   left: 0;
   right: 0;
-  height: calc(var(--skew-offset) + 2px);
+  height: calc(var(--skew-offset) + 1px);
   z-index: -1;
   pointer-events: none;
   background: var(--accent-line-color);
@@ -328,18 +325,18 @@ main > section:nth-of-type(odd)::after {
   clip-path: polygon(
     0 var(--skew-offset),
     100% 0,
-    100% 2px,
-    0 calc(var(--skew-offset) + 2px)
+    100% 1px,
+    0 calc(var(--skew-offset) + 1px)
   );
 }
 
-/* Even: same top edge as ::before — 0,0 → 100%,offset (descending) */
+/* Even: ascending — same as odd (all edges same direction) */
 main > section:nth-of-type(even)::after {
   clip-path: polygon(
-    0 0,
-    100% var(--skew-offset),
-    100% calc(var(--skew-offset) + 2px),
-    0 2px
+    0 var(--skew-offset),
+    100% 0,
+    100% 1px,
+    0 calc(var(--skew-offset) + 1px)
   );
 }
 
