@@ -243,36 +243,41 @@ main > section > astro-island {
 }
 
 /* ── Background band with diagonal edges (clip-path, no skew) ──
-   Extends below the section to fill the next section's top gap.
-   clip-path creates precise diagonal top and bottom edges. */
+   Extends ABOVE the section (top: -offset) to cover the gap
+   from the previous section's diagonal bottom edge.
+   No bottom extension — the next section's top extension covers that. */
 main > section::before {
   content: "";
   position: absolute;
-  top: 0;
-  bottom: calc(-1 * var(--skew-offset));
+  top: calc(-1 * var(--skew-offset));
+  bottom: 0;
   left: 0;
   right: 0;
   z-index: -2;
   pointer-events: none;
 }
 
-/* Odd: ascending edge (left low, right high) */
+/* Odd: ascending edge (left low, right high).
+   Top edge: 0,2*offset → 100%,offset (shifted up by offset).
+   Bottom edge: 0,100%+offset → 100%,100%. */
 main > section:nth-of-type(odd)::before {
   background: var(--background);
   clip-path: polygon(
-    0 var(--skew-offset),
-    100% 0,
+    0 calc(var(--skew-offset) * 2),
+    100% var(--skew-offset),
     100% calc(100% - var(--skew-offset)),
     0 100%
   );
 }
 
-/* Even: descending edge (left high, right low) */
+/* Even: descending edge (left high, right low).
+   Top edge: 0,offset → 100%,2*offset.
+   Bottom edge: 0,100% → 100%,100%-offset. */
 main > section:nth-of-type(even)::before {
   background: var(--muted);
   clip-path: polygon(
-    0 0,
-    100% var(--skew-offset),
+    0 var(--skew-offset),
+    100% calc(var(--skew-offset) * 2),
     100% 100%,
     0 calc(100% - var(--skew-offset))
   );
@@ -293,20 +298,28 @@ main > section:first-of-type::before {
 main > section:last-of-type::before {
   bottom: 0;
   clip-path: polygon(
-    0 var(--skew-offset),
-    100% 0,
+    0 calc(var(--skew-offset) * 2),
+    100% var(--skew-offset),
     100% 100%,
     0 100%
   );
 }
 
 /* ── Accent line at the top of each section ──
-   The line sits at the TOP of each section, on the color boundary.
-   The visible boundary is this section's ::before top edge.
-   So ::after must match THIS section's ::before top edge.
-
-   Odd:  ascending  (0,offset → 100%,0)
-   Even: descending (0,0 → 100%,offset) */
+   ::before now extends upward (top: -offset). The visible top
+   edge of ::before at the section's top: 0 line is:
+   - Odd:  0,2*offset → 100%,offset → at y=0 the edge is at 0,2*offset
+     which is ABOVE the section. The edge crosses y=0 at midpoint.
+     Actually the edge at the section boundary (y=0 in section coords
+     = y=offset in ::before coords) is:
+     - Odd:  at y=offset → left=0 (since 0,2*offset to 100%,offset
+       means at y=offset the entire edge is at y=offset... no.
+     
+   Simpler: the ::before top edge in section coordinates:
+   - Odd:  goes from (0, offset) to (100%, 0) = ascending
+   - Even: goes from (0, 0) to (100%, offset) = descending
+   
+   ::after at top: 0 must match this edge. */
 :root {
   --accent-line-color: color-mix(in oklch, var(--primary) 20%, transparent);
 }
@@ -323,7 +336,7 @@ main > section::after {
   background: var(--accent-line-color);
 }
 
-/* Odd: ascending top edge — 0,offset → 100%,0 */
+/* Odd: ascending — top edge 0,offset → 100%,0 */
 main > section:nth-of-type(odd)::after {
   clip-path: polygon(
     0 var(--skew-offset),
@@ -333,7 +346,7 @@ main > section:nth-of-type(odd)::after {
   );
 }
 
-/* Even: descending top edge — 0,0 → 100%,offset */
+/* Even: descending — top edge 0,0 → 100%,offset */
 main > section:nth-of-type(even)::after {
   clip-path: polygon(
     0 0,
