@@ -137,8 +137,9 @@ main > section > astro-island {
 }
 
 /* ── Skewed background band ── */
-/* Extends well beyond section edges so the skew covers everything.
-   No overflow:hidden so the diagonal color edge is visible. */
+/* The visible color edge between sections is the TOP of each ::before.
+   Skew direction alternates so the edge goes up-then-down.
+   transform-origin: bottom anchors the skew so the top edge moves. */
 main > section::before {
   content: "";
   position: absolute;
@@ -148,20 +149,19 @@ main > section::before {
   right: 0;
   z-index: -2;
   pointer-events: none;
+  transform-origin: bottom left;
 }
 
-/* Odd sections: ascending skew (-3deg) — bottom-right higher */
+/* Odd sections: ascending edge (top-left lower, top-right higher) */
 main > section:nth-of-type(odd)::before {
   background: var(--background);
   transform: skewY(-3deg);
-  transform-origin: top left;
 }
 
-/* Even sections: descending skew (3deg) — bottom-left higher */
+/* Even sections: descending edge (top-left higher, top-right lower) */
 main > section:nth-of-type(even)::before {
   background: var(--muted);
   transform: skewY(3deg);
-  transform-origin: top right;
 }
 
 /* ── Accent line at the boundary ── */
