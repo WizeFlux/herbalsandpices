@@ -184,38 +184,53 @@
  * 5. Section layout system
  *
  * Controls the visual rhythm of the page: alternating backgrounds
- * with diagonal (skewed) color edges, accent lines at boundaries,
+ * with diagonal color edges, accent lines at boundaries,
  * and responsive vertical spacing.
  *
  * KEY INSIGHT: nth-of-type counts only <section> elements, ignoring
  * <astro-island> wrappers that Svelte client:load/visible injects.
- * This is why we use nth-of-type, not nth-child.
  *
  * Architecture:
- * - ::before = skewed background band (z-index: -2, behind content)
- * - ::after  = skewed accent line at boundary (z-index: -1, above bg)
+ * - ::before = background band with diagonal edges via clip-path
+ *   (no skewY — clip-path gives precise control, no gaps)
+ * - ::after  = accent line at top of section (diagonal, via skewY)
  * - Content  = z-index: 1 (above both pseudo-elements)
  *
- * Skew alternation:
- * - Odd sections:  skewY(-3deg) = ascending edge (left low, right high)
- * - Even sections: skewY(3deg)  = descending edge (left high, right low)
+ * Diagonal direction:
+ * - Odd sections:  ascending  (left low, right high)
+ * - Even sections: descending (left high, right low)
  *
- * The accent line (::after) on section N matches the skew of section N+1,
- * because the line sits on the boundary BETWEEN them.
+ * The ::before extends 4rem below the section to fill the triangular
+ * gap at the top of the NEXT section (where its diagonal edge
+ * doesn't cover). The next section's ::before sits on top (later
+ * in DOM), so the visible color boundary is the next section's
+ * diagonal top edge.
+ *
+ * The accent line (::after) is at top: 0 of each section, matching
+ * the diagonal direction. It sits on the color boundary.
  * ────────────────────────────────────────────────────────────── */
 
-/* ── Responsive section padding ──
-   Single value for all sections. The skew is mirrored so both
-   parities need identical compensation. Tuned for visual balance. */
+/* ── Diagonal edge offset (4rem = 64px on desktop) ──
+   Controls the steepness of the diagonal. Larger = more visible
+   diagonal but needs more padding compensation. */
+:root {
+  --skew-offset: 2rem;
+}
+@media (min-width: 768px) {
+  :root { --skew-offset: 3rem; }
+}
+@media (min-width: 1024px) {
+  :root { --skew-offset: 4rem; }
+}
+
+/* Base section: relative positioning, uniform padding, clip overflow. */
 main > section {
   position: relative;
-  padding-block: calc(var(--section-py) + 2rem);
+  padding-block: calc(var(--section-py) + var(--skew-offset));
   overflow-x: clip;
 }
 
-/* Content (direct children + astro-island wrappers) sits above background.
-   display: contents on astro-island makes it "invisible" to layout —
-   its children flow as if the wrapper didn't exist. */
+/* Content sits above the background */
 main > section > * {
   position: relative;
   z-index: 1;
@@ -227,66 +242,92 @@ main > section > astro-island {
   display: contents;
 }
 
-/* ── Skewed background band (::before) ──
-   Fills the entire section with the section's color, then skews it.
-   The TOP edge of this band is the visible color boundary.
-   transform-origin: bottom left anchors the skew so the top moves.
-   Extended -2rem above (top) to cover the skew gap where the
-   previous section's bg would show through.
-   No bottom extension — the next section's top extension covers that. */
+/* ── Background band with diagonal edges (clip-path, no skew) ──
+   Extends below the section to fill the next section's top gap.
+   clip-path creates precise diagonal top and bottom edges. */
 main > section::before {
   content: "";
   position: absolute;
-  top: -2rem;
-  bottom: 0;
+  top: 0;
+  bottom: calc(-1 * var(--skew-offset));
   left: 0;
   right: 0;
   z-index: -2;
   pointer-events: none;
-  transform-origin: bottom left;
 }
 
-/* Odd sections (1, 3, 5, 7): light background, ascending edge */
+/* Odd: ascending edges (left low, right high) */
 main > section:nth-of-type(odd)::before {
   background: var(--background);
-  transform: skewY(-3deg);
+  clip-path: polygon(
+    0 var(--skew-offset),
+    100% 0,
+    100% calc(100% - var(--skew-offset)),
+    0 100%
+  );
 }
 
-/* Even sections (2, 4, 6): muted background, descending edge */
+/* Even: descending edges (left high, right low) */
 main > section:nth-of-type(even)::before {
   background: var(--muted);
-  transform: skewY(3deg);
+  clip-path: polygon(
+    0 0,
+    100% var(--skew-offset),
+    100% 100%,
+    0 calc(100% - var(--skew-offset))
+  );
 }
 
-/* ── Accent line at section boundary (::after) ──
-   A thin diagonal line at the bottom of each section.
-   Must match the NEXT section's ::before top edge direction,
-   because the line sits on the boundary between section N and N+1. */
+/* First section: flat top (no previous section to diagonal against) */
+main > section:first-of-type::before {
+  top: 0;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - var(--skew-offset)),
+    0 100%
+  );
+}
+
+/* Last section: flat bottom (no extension, footer has its own border) */
+main > section:last-of-type::before {
+  bottom: 0;
+  clip-path: polygon(
+    0 var(--skew-offset),
+    100% 0,
+    100% 100%,
+    0 100%
+  );
+}
+
+/* ── Accent line at the top of each section ──
+   Sits on the color boundary (top edge of this section's ::before).
+   Uses skewY — close enough to the clip-path angle for a 1px line. */
 main > section::after {
   content: "";
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
   right: 0;
   height: 0;
   z-index: -1;
   pointer-events: none;
   border-bottom: var(--accent-line);
-  transform-origin: bottom left;
+  transform-origin: top left;
 }
 
-/* Odd→Even boundary: next section is even (descending 3deg) */
+/* Odd: ascending line (matches ::before top edge) */
 main > section:nth-of-type(odd)::after {
-  transform: skewY(3deg);
-}
-
-/* Even→Odd boundary: next section is odd (ascending -3deg) */
-main > section:nth-of-type(even)::after {
   transform: skewY(-3deg);
 }
 
-/* Last section: no accent line (footer has its own border-top) */
-main > section:last-of-type::after {
+/* Even: descending line */
+main > section:nth-of-type(even)::after {
+  transform: skewY(3deg);
+}
+
+/* First section: no accent line at top (no boundary above it) */
+main > section:first-of-type::after {
   display: none;
 }
 
