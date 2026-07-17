@@ -274,9 +274,10 @@ main > section:first-of-type::before {
   transform: none;
 }
 
-/* Last section: no skew (flat bottom boundary with footer) */
+/* Last section: keep diagonal (footer has its own border, but
+   the top boundary with the previous section should be diagonal) */
 main > section:last-of-type::before {
-  transform: none;
+  /* inherits skewY from nth-of-type(odd) — no override needed */
 }
 
 /* ── Accent line at the top of each section ──
