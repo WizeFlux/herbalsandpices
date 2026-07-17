@@ -301,9 +301,12 @@ main > section:last-of-type::before {
 }
 
 /* ── Accent line at the top of each section ──
-   Uses the SAME clip-path coordinates as ::before to create a
-   thin (1px) diagonal strip. Guaranteed to match the color
-   boundary exactly — same polygon math for both. */
+   The line sits at the TOP of each section, on the color boundary.
+   The visible boundary is this section's ::before top edge.
+   So ::after must match THIS section's ::before top edge.
+
+   Odd:  ascending  (0,offset → 100%,0)
+   Even: descending (0,0 → 100%,offset) */
 :root {
   --accent-line-color: color-mix(in oklch, var(--primary) 20%, transparent);
 }
@@ -320,7 +323,7 @@ main > section::after {
   background: var(--accent-line-color);
 }
 
-/* Odd: same top edge as ::before — 0,offset → 100%,0 (ascending) */
+/* Odd: ascending top edge — 0,offset → 100%,0 */
 main > section:nth-of-type(odd)::after {
   clip-path: polygon(
     0 var(--skew-offset),
@@ -330,7 +333,7 @@ main > section:nth-of-type(odd)::after {
   );
 }
 
-/* Even: descending — matches ::before top edge (0,0 → 100%,offset) */
+/* Even: descending top edge — 0,0 → 100%,offset */
 main > section:nth-of-type(even)::after {
   clip-path: polygon(
     0 0,
