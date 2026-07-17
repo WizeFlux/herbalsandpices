@@ -1,0 +1,15 @@
+---
+/**
+ * Logo component — uses astro-icon custom icon from src/icons/logo.svg.
+ * Single source of truth for the brand mark.
+ */
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<Icon name="logo" class={className} />

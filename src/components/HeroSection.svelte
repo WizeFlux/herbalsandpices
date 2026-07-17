@@ -7,6 +7,7 @@
    */
   import { onMount } from "svelte";
   import { heroSlides, asset } from "../data/site";
+  import PlateFrame from "./PlateFrame.svelte";
 
   let current = $state(0);
   let timer: ReturnType<typeof setInterval> | null = null;
@@ -75,14 +76,14 @@
     <!-- Bottom row: thumbnails + comments -->
     <div class="grid grid-cols-1 gap-12 md:gap-y-16 lg:grid-cols-5">
       <!-- Thumbnail strip — horizontally scrollable -->
-      <div class="relative w-full max-lg:order-2 lg:col-span-3">
+      <div class="relative w-full min-w-0 max-lg:order-2 lg:col-span-3">
         <!-- Fade gradients -->
         <div class="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-background to-transparent"></div>
         <div class="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-background to-transparent"></div>
 
         <div
           class="flex gap-4 overflow-x-auto scroll-smooth pb-2"
-          style="scrollbar-width: none;"
+          style="scrollbar-width: none; -webkit-overflow-scrolling: touch;"
         >
           {#each heroSlides as slide, index (slide.id)}
             <button
@@ -93,12 +94,7 @@
               <div
                 class="absolute inset-x-0 bottom-0 mx-auto w-full {current === index ? 'text-primary' : 'text-border'}"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 161 92" fill="none" class="w-full h-auto">
-                  <path
-                    d="M0.682517 80.6118L0.501193 39.6946C0.480127 34.9409 3.80852 30.8294 8.46241 29.8603L148.426 0.713985C154.636 -0.579105 160.465 4.16121 160.465 10.504V80.7397C160.465 86.2674 155.98 90.7465 150.453 90.7397L10.6701 90.5674C5.16936 90.5607 0.706893 86.1125 0.682517 80.6118Z"
-                    stroke="currentColor"
-                  />
-                </svg>
+                <PlateFrame class="w-full h-auto" />
               </div>
               <img src={asset(slide.img)} alt={slide.imgAlt} class="size-24" loading="lazy" />
             </button>

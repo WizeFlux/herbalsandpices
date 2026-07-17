@@ -112,8 +112,9 @@
 }
 
 /* ─── Section layout: spacing, alternating bg, accent lines ──── */
-/* All section visual rhythm is controlled here via nth-child.
-   Individual <section> components stay clean — no py-* classes. */
+/* All section visual rhythm is controlled here via nth-of-type.
+   nth-of-type counts only <section> elements, ignoring <astro-island>
+   wrappers that Svelte client:load/visible injects into <main>. */
 
 main > section {
   position: relative;
@@ -121,11 +122,11 @@ main > section {
 }
 
 /* Alternating backgrounds: even = muted, odd = transparent */
-main > section:nth-child(even) {
+main > section:nth-of-type(even) {
   background: var(--muted);
 }
 
-/* Skewed accent band between sections */
+/* Skewed accent band — sits behind content, spans full section */
 main > section::before {
   content: "";
   position: absolute;
@@ -135,13 +136,14 @@ main > section::before {
   pointer-events: none;
 }
 
-/* Even sections: accent line at bottom */
-main > section:nth-child(even)::before {
+/* Even sections: accent line at bottom of the skew */
+main > section:nth-of-type(even)::before {
+  background: var(--muted);
   border-bottom: var(--accent-line);
 }
 
-/* Odd sections: accent line at top */
-main > section:nth-child(odd)::before {
+/* Odd sections: accent line at top of the skew */
+main > section:nth-of-type(odd)::before {
   border-top: var(--accent-line);
 }
 
