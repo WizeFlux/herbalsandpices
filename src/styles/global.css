@@ -195,6 +195,17 @@ main > section:last-of-type::after {
   display: none;
 }
 
+/* ── Catalog card backgrounds: opposite of section ── */
+/* Cards in odd sections (background) get muted bg.
+   Cards in even sections (muted) get background bg. */
+main > section:nth-of-type(odd) article {
+  background: var(--muted);
+}
+
+main > section:nth-of-type(even) article {
+  background: var(--background);
+}
+
 /* ─── Theme toggle icon animation ────────────────────────────── */
 /* Single keyframe drives both icons — no mismatched transitions */
 @keyframes theme-icon-spin {

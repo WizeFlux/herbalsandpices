@@ -125,13 +125,13 @@
               onclick={() => select(index)}
               class="relative flex h-32 w-28 shrink-0 items-end justify-center pb-1"
             >
-              <!-- Plate frame -->
+              <!-- Plate frame (behind image) -->
               <div
-                class="absolute inset-x-0 bottom-0 mx-auto w-full {current === index ? 'text-primary' : 'text-border'}"
+                class="absolute inset-x-0 bottom-0 mx-auto w-full z-0 {current === index ? 'text-primary' : 'text-border'}"
               >
                 <PlateFrame class="w-full h-auto" />
               </div>
-              <img src={asset(slide.img)} alt={slide.imgAlt} class="size-24" loading="lazy" />
+              <img src={asset(slide.img)} alt={slide.imgAlt} class="size-24 relative z-1" loading="lazy" />
             </button>
           {/each}
         </div>
