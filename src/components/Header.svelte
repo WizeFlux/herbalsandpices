@@ -127,14 +127,14 @@
   <!-- Mobile menu -->
   {#if mobileOpen}
     <div class="border-t bg-background lg:hidden">
-      <ul class="mx-auto max-w-7xl px-4 sm:px-6">
+      <ul class="mx-auto max-w-7xl">
         {#each navigation as item (item.title)}
           {@const id = item.href.replace("#", "")}
           {@const active = activeSection === id && activeSection !== ""}
           <li>
             <button
               onclick={() => scrollToSection(item.href)}
-              class="block w-full py-3 text-left text-base transition-colors {active
+              class="block w-full px-4 py-3 text-left text-base transition-colors sm:px-6 {active
                 ? 'bg-primary/10 font-medium text-primary'
                 : 'text-foreground hover:bg-primary/10 hover:text-primary'}"
             >
@@ -145,7 +145,7 @@
         <li>
           <button
             onclick={() => scrollToSection("#contact-us")}
-            class="block w-full py-3 text-left text-base text-primary"
+            class="block w-full px-4 py-3 text-left text-base text-primary sm:px-6"
           >
             Контакты
           </button>

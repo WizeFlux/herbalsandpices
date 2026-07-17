@@ -47,7 +47,7 @@
       <!-- Left button -->
       <button
         onclick={prev}
-        class="absolute left-2 top-1/2 z-10 flex size-8 -translate-y-1/2 items-center justify-center rounded-full text-foreground/70 transition-all duration-200 hover:bg-primary hover:text-primary-foreground"
+        class="absolute left-2 top-1/2 z-10 flex size-8 -translate-y-1/2 items-center justify-center rounded-full border border-primary/30 bg-background/60 text-foreground backdrop-blur-sm transition-all duration-200 hover:border-primary hover:bg-primary hover:text-primary-foreground"
         aria-label="Previous image"
       >
         <Icon icon="lucide:chevron-left" width="16" height="16" />
@@ -56,7 +56,7 @@
       <!-- Right button -->
       <button
         onclick={next}
-        class="absolute right-2 top-1/2 z-10 flex size-8 -translate-y-1/2 items-center justify-center rounded-full text-foreground/70 transition-all duration-200 hover:bg-primary hover:text-primary-foreground"
+        class="absolute right-2 top-1/2 z-10 flex size-8 -translate-y-1/2 items-center justify-center rounded-full border border-primary/30 bg-background/60 text-foreground backdrop-blur-sm transition-all duration-200 hover:border-primary hover:bg-primary hover:text-primary-foreground"
         aria-label="Next image"
       >
         <Icon icon="lucide:chevron-right" width="16" height="16" />
