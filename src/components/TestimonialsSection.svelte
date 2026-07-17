@@ -4,6 +4,7 @@
    */
   import { onMount } from "svelte";
   import { testimonials, asset } from "../data/site";
+  import Icon from "@iconify/svelte";
 
   let scrollEl: HTMLElement;
   let canPrev = $state(false);
@@ -53,9 +54,7 @@
           class="flex size-9 items-center justify-center rounded-full bg-primary text-primary-foreground transition-opacity disabled:bg-primary/10 disabled:text-primary disabled:opacity-100"
           aria-label="Previous"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M15 18l-6-6 6-6" />
-          </svg>
+          <Icon icon="lucide:chevron-left" width="20" height="20" />
         </button>
         <button
           onclick={() => scrollBy(1)}
@@ -63,9 +62,7 @@
           class="flex size-9 items-center justify-center rounded-full bg-primary text-primary-foreground transition-opacity disabled:bg-primary/10 disabled:text-primary disabled:opacity-100"
           aria-label="Next"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 18l6-6-6-6" />
-          </svg>
+          <Icon icon="lucide:chevron-right" width="20" height="20" />
         </button>
       </div>
     </div>
@@ -88,29 +85,23 @@
 
             <div class="flex gap-0.5">
               {#each stars(t.rating) as starType}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
+                {@const fillColor = starType === "empty" ? "#d1d5db" : "#eab308"}
+                <Icon
+                  icon="lucide:star"
                   width="24"
                   height="24"
-                  viewBox="0 0 24 24"
-                  fill={starType === "full" ? "#eab308" : "none"}
-                  stroke={starType === "empty" ? "#d1d5db" : "#eab308"}
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  {#if starType === "half"}
+                  style="color: {fillColor}; fill: {starType === 'full' ? fillColor : starType === 'half' ? 'url(#half-' + t.name.replace(/\\s/g, '') + ')' : 'none'};"
+                />
+                {#if starType === "half"}
+                  <svg width="0" height="0">
                     <defs>
-                      <linearGradient id="half-{t.name}">
+                      <linearGradient id="half-{t.name.replace(/\s/g, '')}">
                         <stop offset="50%" stop-color="#eab308" />
                         <stop offset="50%" stop-color="transparent" />
                       </linearGradient>
                     </defs>
-                    <polygon fill="url(#half-{t.name})" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                  {:else}
-                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                  {/if}
-                </svg>
+                  </svg>
+                {/if}
               {/each}
             </div>
 

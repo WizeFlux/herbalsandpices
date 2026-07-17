@@ -5,6 +5,7 @@
    * Pure state: current index → which image shows.
    */
   import { asset, type CatalogItem } from "../data/site";
+  import Icon from "@iconify/svelte";
 
   interface Props {
     item: CatalogItem;
@@ -49,9 +50,7 @@
         class="absolute left-2 top-1/2 z-10 flex size-8 -translate-y-1/2 items-center justify-center rounded-full border bg-background/80 text-foreground backdrop-blur-sm transition-all duration-200 hover:bg-primary hover:text-primary-foreground"
         aria-label="Previous image"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M15 18l-6-6 6-6" />
-        </svg>
+        <Icon icon="lucide:chevron-left" width="16" height="16" />
       </button>
 
       <!-- Right button -->
@@ -60,9 +59,7 @@
         class="absolute right-2 top-1/2 z-10 flex size-8 -translate-y-1/2 items-center justify-center rounded-full border bg-background/80 text-foreground backdrop-blur-sm transition-all duration-200 hover:bg-primary hover:text-primary-foreground"
         aria-label="Next image"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 18l6-6-6-6" />
-        </svg>
+        <Icon icon="lucide:chevron-right" width="16" height="16" />
       </button>
 
       <!-- Dots indicator -->

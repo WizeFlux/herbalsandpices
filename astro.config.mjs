@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 
 import svelte from '@astrojs/svelte';
+import icon from 'astro-icon';
 
 import tailwindcss from '@tailwindcss/vite';
 
@@ -9,7 +10,7 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://wizeflux.github.io',
   base: '/herbalsandpices',
-  integrations: [svelte()],
+  integrations: [svelte(), icon()],
 
   vite: {
     plugins: [tailwindcss()]
